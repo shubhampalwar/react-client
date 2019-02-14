@@ -1,0 +1,45 @@
+html,
+body {
+    max-width: 100%;
+    max-height: 100%;
+    overflow: hidden;
+}
+
+.co-container {
+    box-shadow: 3px 7px 15px grey;
+    margin: 5%;
+    box-sizing: border-box;
+    background-color: white;
+}
+.nav-bar{
+    display: flex;
+    padding: 10px;
+    font-weight: bold;
+    border: 1px solid #d9d9d9;
+}
+.nav-bar > * {
+    flex: 1;
+}
+
+.menu {
+    flex: 3;
+}
+ul {
+    display: flex;
+    font-weight: 100;
+}
+.nav-bar ul li+li::before {
+    content: "/";
+    padding: 0 8px;
+    color: grey;
+}
+.menu-item:active {
+    color: grey;
+    font-weight: bold;
+}
+.menu-item:hover {
+    font-weight: bold
+}
+.close-right {
+    text-align: end;
+}
