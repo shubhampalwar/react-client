@@ -8,36 +8,35 @@
     height: 30px;
     padding: 10px;
 }
-#checkout {
+.checkout {
     flex-grow: 7;
 }
-#check--heading {
+.check--heading {
+    margin-top: 10px;
     font-weight: bold;
 }
-#list {
+.list {
     flex-grow: 25;
 }
-#menu {
+.breadcrumbs {
     padding: 7px;
 }
-#menu li {
+.breadcrumbs li {
     display: inline;
 }
-#menu li::after {
+.breadcrumbs li::after {
     padding: 15px;
     content: "/";
     color: grey;
 }
-#menu li:last-child::after {
+.breadcrumbs li:last-child::after {
     content: "";
 }
-#menu li a:hover {
+.breadcrumbs--active {
     font-weight: bold;
 }
-#menu li a:active {
-    color: gray;
-}
-#menu li a {
+
+.breadcrumbs li a {
     text-decoration: none;
     color: black;
 }
@@ -50,12 +49,12 @@
     display: flex;
     height: 40px;
 }
-#payment {
+.payment {
     flex-grow: 3;
     padding: 10px;
     
 }
-#cart {
+.cart {
     flex-grow: 2;
     background-color: lightgray;
     padding: 10px;
