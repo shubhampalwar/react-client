@@ -1,45 +1,62 @@
-html,
-body {
-    max-width: 100%;
-    max-height: 100%;
-    overflow: hidden;
+.block {
+    border: 0.5px solid lightgray;
+    margin: 30px;
+    box-shadow: 5px 10px 8px #888888;
 }
-
-.co-container {
-    box-shadow: 3px 7px 15px grey;
-    margin: 5%;
-    box-sizing: border-box;
-    background-color: white;
-}
-.nav-bar{
+.block--upper {
     display: flex;
+    height: 30px;
     padding: 10px;
+}
+#checkout {
+    flex-grow: 7;
+}
+#check--heading {
     font-weight: bold;
-    border: 1px solid #d9d9d9;
 }
-.nav-bar > * {
-    flex: 1;
+#list {
+    flex-grow: 25;
 }
-
-.menu {
-    flex: 3;
+#menu {
+    padding: 7px;
 }
-ul {
-    display: flex;
-    font-weight: 100;
+#menu li {
+    display: inline;
 }
-.nav-bar ul li+li::before {
+#menu li::after {
+    padding: 15px;
     content: "/";
-    padding: 0 8px;
     color: grey;
 }
-.menu-item:active {
-    color: grey;
+#menu li:last-child::after {
+    content: "";
+}
+#menu li a:hover {
     font-weight: bold;
 }
-.menu-item:hover {
-    font-weight: bold
+#menu li a:active {
+    color: gray;
 }
-.close-right {
-    text-align: end;
+#menu li a {
+    text-decoration: none;
+    color: black;
+}
+#icon {
+    flex-grow: 0.1;
+    align-items: center
+}
+.block--lower {
+    border-top: 0.5px solid lightgray;
+    display: flex;
+    height: 40px;
+}
+#payment {
+    flex-grow: 3;
+    padding: 10px;
+    
+}
+#cart {
+    flex-grow: 2;
+    background-color: lightgray;
+    padding: 10px;
 }
