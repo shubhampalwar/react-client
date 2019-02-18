@@ -82,7 +82,7 @@ h1 {
 }
 
 #card-name {
-    border: 0.5px solid lightgray;
+    border: 1px solid lightgray;
     padding: 4px;
     border-radius: 4px;
     width: 300px;
@@ -92,7 +92,7 @@ h1 {
 }
 
 #card-number {
-    border: 0.5px solid lightgray;
+    border: 1px solid lightgray;
     border-radius: 4px;
     padding: 4px;
     width: 300px;
@@ -102,7 +102,7 @@ h1 {
 }
 
 #card-date {
-    border: 0.5px solid lightgray;
+    border: 1px solid lightgray;
     border-radius: 4px;
     padding: 4px;
     width: 143.5px;
@@ -111,7 +111,7 @@ h1 {
 }
 
 #card-cvv {
-    border: 0.5px solid lightgray;
+    border: 1px solid lightgray;
     border-radius: 4px;
     padding: 4px;
     width: 143.5px;
