@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import style from './style';
 
-class TextField extends Component {
+class RadioGroup extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -14,6 +14,8 @@ class TextField extends Component {
   }
 
   render() {
+    // eslint-disable-next-line no-console
+    // console.log(this.state);
     const { error, ...rest } = this.props;
     const errorStyle = (error) ? { ...style.error } : {};
     return (
@@ -25,14 +27,16 @@ class TextField extends Component {
   }
 }
 
-TextField.propTypes = {
+RadioGroup.propTypes = {
   error: PropTypes.string,
   value: PropTypes.string,
+  options: PropTypes.arrayOf({ Label: PropTypes.string }),
   onChange: PropTypes.func,
 };
-TextField.defaultProps = {
+RadioGroup.defaultProps = {
   error: '',
   value: '',
   onChange: {},
+  options: [],
 };
-export default TextField;
+export default RadioGroup;
