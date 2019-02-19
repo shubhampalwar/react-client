@@ -16,6 +16,6 @@ TextField.propTypes = {
   error: propTypes.string,
 };
 TextField.defaultProps = {
-  error: 'error',
+  error: '',
 };
 export default TextField;
