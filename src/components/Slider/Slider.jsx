@@ -27,13 +27,15 @@ class Slider extends Component {
   render() {
     const { index } = this.state;
     const {
-      altText, banners, defaultBanner, height, ...rest
+      altText, banners, defaultBanner, ...rest
     } = this.props;
     // console.log('Index', index);
     const source = (banners.length === 0) ? defaultBanner : banners[index];
     return (
       <>
-        <img style={{ textAlign: 'center' }} src={source} alt={altText} {...rest} />
+        <div style={{ textAlign: 'center' }}>
+          <img src={source} alt={altText} {...rest} />
+        </div>
       </>
     );
   }
@@ -43,7 +45,7 @@ Slider.propTypes = {
   banners: PropTypes,
   defaultBanner: PropTypes.string,
   duration: PropTypes.number,
-  height: PropTypes.number,
+  height: PropTypes.string,
   random: PropTypes.bool,
 };
 Slider.defaultProps = {
@@ -51,7 +53,7 @@ Slider.defaultProps = {
   banners: '',
   defaultBanner: DEFAULT_BANNER_IMAGE,
   duration: 2000,
-  height: 200,
+  height: '200px',
   random: false,
 };
 
