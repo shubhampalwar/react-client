@@ -1,5 +1,8 @@
+/* eslint-disable no-console */
 import React, { Component } from 'react';
-import { TextField, RadioGroup, SelectField } from '../../components';
+import {
+  TextField, RadioGroup, SelectField, Button,
+} from '../../components';
 import { OPTIONS, FOOTBALL, CRICKET } from '../../configs/constants';
 import { style } from './style';
 
@@ -18,7 +21,6 @@ class InputDemo extends Component {
     this.setState({
       name: event.target.value,
     }, () => {
-      // eslint-disable-next-line no-console
       console.log(this.state);
     });
   }
@@ -29,7 +31,6 @@ class InputDemo extends Component {
       football: '',
       cricket: '',
     }, () => {
-      // eslint-disable-next-line no-console
       console.log(this.state);
     });
   }
@@ -40,17 +41,19 @@ class InputDemo extends Component {
       this.setState({
         football: event.target.value,
       }, () => {
-        // eslint-disable-next-line no-console
         console.log(this.state);
       });
     } else if (sports === 'Cricket') {
       this.setState({
         cricket: event.target.value,
       }, () => {
-        // eslint-disable-next-line no-console
         console.log(this.state);
       });
     }
+  }
+
+  handleClick = () => {
+    console.log('hello');
   }
 
   render() {
@@ -75,6 +78,10 @@ class InputDemo extends Component {
           {
             (sports) ? <RadioGroup value={sports} options={array} onChange={this.handleRoleChange} /> : ''
           }
+        </div>
+        <div style={style.buttonDiv}>
+          <Button style={{ ...style.button }} value="cancel" onClick={this.handleClick} />
+          <Button style={{ ...style.button, backgroundColor: 'black', color: 'white' }} value="submit" onClick={this.handleClick} />
         </div>
       </>
     );

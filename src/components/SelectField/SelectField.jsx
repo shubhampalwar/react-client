@@ -10,7 +10,7 @@ class SelectField extends Component {
 
   render() {
     const {
-      error, value, options, defaultText, ...rest
+      error, value, options, defaultText, label, ...rest
     } = this.props;
     const errorStyle = error ? { ...style.error } : {};
     return (
@@ -43,10 +43,12 @@ SelectField.propTypes = {
     PropTypes.shape({ label: PropTypes.string, value: PropTypes.string }),
   ),
   defaultText: PropTypes.string,
+  label: PropTypes.string,
 };
 SelectField.defaultProps = {
   defaultText: 'Select',
   error: '',
   options: [],
+  label: '',
 };
 export default SelectField;
