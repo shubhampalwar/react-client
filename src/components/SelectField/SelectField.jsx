@@ -5,25 +5,31 @@ import style from './style';
 class SelectField extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: '',
-      sports: '',
-      cricket: '',
-      football: '',
-    };
+    this.state = {};
   }
 
   render() {
     const {
-      error, value, options, ...rest
+      error, value, options, defaultText, ...rest
     } = this.props;
-    const errorStyle = (error) ? { ...style.error } : {};
+    const errorStyle = error ? { ...style.error } : {};
     return (
       <>
-        <select {...rest} style={{ ...style.base, ...errorStyle }}>
-          <option style={{ ...style.base }} value={options[0].value}>{options[0].label}</option>
+        <select
+          defaultValue={defaultText}
+          {...rest}
+          style={{ ...style.base, ...errorStyle }}
+        >
+          <option style={style.base} value={defaultText} disabled>
+            {defaultText}
+          </option>
+          {options.map(option => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
         </select>
-        {(error) ? <p style={{ color: 'red' }}>{error}</p> : ''}
+        <div>{error ? <p style={{ color: 'red' }}>{error}</p> : ''}</div>
       </>
     );
   }
@@ -31,16 +37,16 @@ class SelectField extends Component {
 
 SelectField.propTypes = {
   error: PropTypes.string,
-  value: PropTypes.string,
-  onChange: PropTypes.func,
-  options: PropTypes.arrayOf({ label: PropTypes.string, value: PropTypes.string }),
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
+  options: PropTypes.arrayOf(
+    PropTypes.shape({ label: PropTypes.string, value: PropTypes.string }),
+  ),
   defaultText: PropTypes.string,
 };
 SelectField.defaultProps = {
-  defaultText: 'select',
+  defaultText: 'Select',
   error: '',
-  value: '',
-  options: [{ label: 'Car', value: 'cars' }],
-  onChange: {},
+  options: [],
 };
 export default SelectField;

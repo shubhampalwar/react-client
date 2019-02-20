@@ -1,5 +1,3 @@
-
-
 const style = {
   base: {
     height: '20px',

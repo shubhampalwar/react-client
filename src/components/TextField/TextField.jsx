@@ -5,21 +5,16 @@ import style from './style';
 class TextField extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: '',
-      sports: '',
-      cricket: '',
-      football: '',
-    };
+    this.props = props;
   }
 
   render() {
     const { error, ...rest } = this.props;
-    const errorStyle = (error) ? { ...style.error } : {};
+    const errorStyle = error ? { ...style.error } : {};
     return (
       <>
         <input type="text" {...rest} style={{ ...style.base, ...errorStyle }} />
-        {(error) ? <p style={{ color: 'red' }}>{error}</p> : ''}
+        {error ? <p style={{ color: 'red' }}>{error}</p> : ''}
       </>
     );
   }
@@ -27,12 +22,10 @@ class TextField extends Component {
 
 TextField.propTypes = {
   error: PropTypes.string,
-  value: PropTypes.string,
-  onChange: PropTypes.func,
+  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 TextField.defaultProps = {
   error: '',
-  value: '',
-  onChange: {},
 };
 export default TextField;
