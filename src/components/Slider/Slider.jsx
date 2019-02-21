@@ -29,12 +29,11 @@ class Slider extends Component {
     const {
       altText, banners, defaultBanner, ...rest
     } = this.props;
-    // console.log('Index', index);
     const source = (banners.length === 0) ? defaultBanner : banners[index];
     return (
       <>
         <div style={{ textAlign: 'center' }}>
-          <img src={source} alt={altText} {...rest} />
+          <img src={source} alt={altText} style={{ height: rest.height }} />
         </div>
       </>
     );
@@ -42,7 +41,7 @@ class Slider extends Component {
 }
 Slider.propTypes = {
   altText: PropTypes.string,
-  banners: PropTypes,
+  banners: PropTypes.arrayOf(PropTypes.string),
   defaultBanner: PropTypes.string,
   duration: PropTypes.number,
   height: PropTypes.string,
@@ -50,7 +49,7 @@ Slider.propTypes = {
 };
 Slider.defaultProps = {
   altText: 'Default Banner',
-  banners: '',
+  banners: [],
   defaultBanner: DEFAULT_BANNER_IMAGE,
   duration: 2000,
   height: '200px',

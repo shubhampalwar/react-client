@@ -1,9 +1,11 @@
 import React from 'react';
-import { TextFieldDemo } from './pages';
+// eslint-disable-next-line no-unused-vars
+import {TextFieldDemo ,InputDemo } from './pages';
 
 const App = () => (
   <>
-    <TextFieldDemo />
+    {/* <TextFieldDemo /> */}
+    <InputDemo />
   </>
 );
 export default App;

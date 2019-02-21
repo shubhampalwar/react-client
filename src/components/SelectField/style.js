@@ -1,8 +1,5 @@
-
-
 const style = {
   base: {
-    height: '20px',
     padding: '10px',
     borderRadius: '5px',
     border: '1px solid lightgrey',

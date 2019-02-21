@@ -18,7 +18,7 @@ class TextFieldDemo extends Component {
   render() {
     return (
       <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
-        <Slider banners={imgArr} random />
+        <Slider banners={imgArr} />
         <h1>This is a Disabled Input</h1>
         <TextField disabled value="Disabled Input" />
         <h1>A Valid Input</h1>
