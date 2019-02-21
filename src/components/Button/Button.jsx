@@ -1,17 +1,23 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import btnStyle from './style';
 
 class Button extends Component {
   constructor(props) {
     super(props);
-    this.props = props;
+    this.state = {};
   }
 
   render() {
-    const { value, ...rest } = this.props;
+    const {
+      color, disabled, style, ...rest
+    } = this.props;
+    const btnColor = !btnStyle[color] || color === 'default' || disabled
+      ? {}
+      : btnStyle[color];
     return (
       <>
-        <input type="button" value={value} {...rest} />
+        <input style={{ ...btnStyle.base, ...btnColor }} disabled={disabled} type="button" {...rest} />
       </>
     );
   }

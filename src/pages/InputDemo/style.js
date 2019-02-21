@@ -1,6 +1,5 @@
 export const style = {
   base: {
-    width: '100%',
     display: 'flex',
     flexDirection: 'column',
   },
@@ -9,9 +8,5 @@ export const style = {
     flexDirection: 'row',
     justifyContent: 'flex-end',
     paddingTop: '10px',
-  },
-  button: {
-    padding: '20px',
-    margin: '10px',
   },
 };
