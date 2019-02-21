@@ -9,10 +9,6 @@
     "react-scripts": "2.1.5",
     "yup": "^0.26.10"
   },
-  "hooks": {
-    "pre-commit": "npm run lint && npm run test:c",
-    "pre-push": "npm run lint && npm run test:c"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

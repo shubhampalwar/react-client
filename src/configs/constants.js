@@ -5,8 +5,8 @@ export const CRICKET = 'cricket';
 export const FOOTBALL = 'football';
 
 export const OPTIONS = [
-  { label: 'FootBall', value: 'Football' },
-  { label: 'Cricket', value: 'Cricket' },
+  { label: 'FootBall', value: 'football' },
+  { label: 'Cricket', value: 'cricket' },
 ];
 
 export const FOOTBALL_OPS = [

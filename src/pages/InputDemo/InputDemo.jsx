@@ -12,12 +12,12 @@ import { style } from './style';
 const playerSchema = yup.object({
   name: yup.string().min(3).required().label('name'),
   sports: yup.string().required().label('sports'),
-  football: yup.string().label('What do you do').when('sport', {
+  football: yup.string().label('What do you do').when('sports', {
     is: val => val === FOOTBALL,
     then: yup.string().required(),
     otherwise: yup.string().min(0),
   }),
-  cricket: yup.string().label('What do you do').when('sport', {
+  cricket: yup.string().label('What do you do').when('sports', {
     is: val => val === CRICKET,
     then: yup.string().required(),
     otherwise: yup.string().min(0),
@@ -73,7 +73,6 @@ class InputDemo extends Component {
         allErrors[error.path] = error.message;
       });
     }
-    console.log(allErrors);
     this.setState({
       errors: allErrors,
     });
@@ -100,47 +99,25 @@ class InputDemo extends Component {
     return errors[field] || '';
   }
 
-  renderFootball = () => {
-    const { football, sports } = this.state;
-    if (sports !== 'Football') {
+  renderGame = (game, ops)  => {
+    const { sports } = this.state;
+    if(sports !== game) {
       return null;
     }
     return (
       <RadioGroup
-        value={football}
-        title="What do you do?"
-        options={FOOTBALL_OPS}
-        onBlur={this.handleBlur(FOOTBALL)}
-        onChange={this.handleChange(FOOTBALL)}
+      value={this.state[game]}
+      title="what do you do?"
+      options={ops}
+      onBlur={this.handleBlur(game)}
+      onChange={this.handleChange(game)}
+      error={this.getErrors(game)}
       />
     );
   }
 
-  renderCricket = () => {
-    const { cricket, sports } = this.state;
-    if (sports !== 'Cricket') {
-      return null;
-    }
-    return (
-      <RadioGroup
-        value={cricket}
-        title="What do you do?"
-        options={CRICKET_OPS}
-        onBlur={this.handleBlur(CRICKET)}
-        onChange={this.handleChange(CRICKET)}
-        error={this.getErrors(CRICKET)}
-      />
-    );
-  }
-
-  hasError = () => {
-    const { errors } = this.state;
-    return (Object.keys(errors).length !== 0);
-  }
-
-  isTouched = () => {
-    const { touched } = this.state;
-    return (Object.keys(touched).length !== 0);
+  checkState = (field) => {
+    return (Object.keys(this.state[field]).length !== 0);
   }
 
   render() {
@@ -168,11 +145,11 @@ class InputDemo extends Component {
 
           />
         </div>
-        { this.renderCricket() }
-        { this.renderFootball() }
+        { this.renderGame("cricket", CRICKET_OPS) }
+        { this.renderGame("football",FOOTBALL_OPS) }
         <div style={style.buttonDiv}>
           <Button value="cancel" onClick={this.handleClick} />
-          <Button value="submit" onClick={this.handleClick} color="primary" disabled={this.hasError() || this.isTouched()} />
+          <Button value="submit" onClick={this.handleClick} color="primary" disabled={this.checkState('errors') || !this.checkState('touched')} />
         </div>
       </>
     );
