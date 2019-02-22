@@ -37,24 +37,29 @@ class InputDemo extends Component {
   }
 
   handleChange = field => (event) => {
-    this.setState(
-      {
-        [field]: event.target.value,
-      },
-      () => this.handleValidate(),
-    );
-  };
-
-  handleSportChange = (event) => {
-    this.setState(
-      {
-        sports: event.target.value,
+    if (field === 'sports') {
+      this.setState({
         football: '',
         cricket: '',
       },
-      () => this.handleValidate(),
-    );
+      () => this.handleValidate());
+    }
+    this.setState({
+      [field]: event.target.value,
+    },
+    () => this.handleValidate());
   };
+
+  // handleSportChange = (event) => {
+  //   this.setState(
+  //     {
+  //       sports: event.target.value,
+  //       football: '',
+  //       cricket: '',
+  //     },
+  //     () => this.handleValidate(),
+  //   );
+  // };
 
   handleBlur = field => () => {
     const { touched } = this.state;
@@ -99,26 +104,24 @@ class InputDemo extends Component {
     return errors[field] || '';
   }
 
-  renderGame = (game, ops)  => {
+  renderGame = (game, ops) => {
     const { sports } = this.state;
-    if(sports !== game) {
+    if (sports !== game) {
       return null;
     }
     return (
       <RadioGroup
-      value={this.state[game]}
-      title="what do you do?"
-      options={ops}
-      onBlur={this.handleBlur(game)}
-      onChange={this.handleChange(game)}
-      error={this.getErrors(game)}
+        value={this.state[game]}
+        title="what do you do?"
+        options={ops}
+        onBlur={this.handleBlur(game)}
+        onChange={this.handleChange(game)}
+        error={this.getErrors(game)}
       />
     );
   }
 
-  checkState = (field) => {
-    return (Object.keys(this.state[field]).length !== 0);
-  }
+  checkState = (field) => (Object.keys(this.state[field]).length !== 0)
 
   render() {
     const { name, sports } = this.state;
@@ -139,14 +142,14 @@ class InputDemo extends Component {
             value={sports}
             title="Select the game you play"
             options={OPTIONS}
-            onChange={this.handleSportChange}
+            onChange={this.handleChange('sports')}
             onBlur={this.handleBlur('sports')}
             error={this.getErrors('sports')}
 
           />
         </div>
-        { this.renderGame("cricket", CRICKET_OPS) }
-        { this.renderGame("football",FOOTBALL_OPS) }
+        { this.renderGame('cricket', CRICKET_OPS) }
+        { this.renderGame('football', FOOTBALL_OPS) }
         <div style={style.buttonDiv}>
           <Button value="cancel" onClick={this.handleClick} />
           <Button value="submit" onClick={this.handleClick} color="primary" disabled={this.checkState('errors') || !this.checkState('touched')} />
