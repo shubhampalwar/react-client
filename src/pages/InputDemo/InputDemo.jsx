@@ -50,17 +50,6 @@ class InputDemo extends Component {
     () => this.handleValidate());
   };
 
-  // handleSportChange = (event) => {
-  //   this.setState(
-  //     {
-  //       sports: event.target.value,
-  //       football: '',
-  //       cricket: '',
-  //     },
-  //     () => this.handleValidate(),
-  //   );
-  // };
-
   handleBlur = field => () => {
     const { touched } = this.state;
     touched[field] = true;
