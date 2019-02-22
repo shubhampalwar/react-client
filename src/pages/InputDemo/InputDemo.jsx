@@ -87,7 +87,7 @@ class InputDemo extends Component {
 
   getErrors = (field) => {
     const { touched, errors } = this.state;
-    if (!touched[field]) {
+    if (!touched[field] && field !== CRICKET && field !== FOOTBALL) {
       return null;
     }
     return errors[field] || '';
