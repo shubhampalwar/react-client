@@ -58,8 +58,8 @@ class ChildrenDemo extends Component {
             }
           </Math>
           <Math first={2} second={0} operator="/">
-            {(first, second, operator, result)=> {
-              if (!this.getOperator(operator)) {return <p>Invalid Operation</p>;}
+            {(first, second, operator, result) => {
+              if (!this.getOperator(operator)) { return <p>Invalid Operation</p>; }
               return (
                 <p>{`When we ${this.getOperator(operator)} ${first} with ${second} we get ${result}`}</p>
               );
