@@ -7,7 +7,7 @@ class ChildrenDemo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
+      open: true,
     };
   }
 
@@ -20,7 +20,7 @@ class ChildrenDemo extends Component {
   handleClick = () => {
     this.setState({
       open: true,
-    }, () => console.log(this.state));
+    });
   }
 
   handelTraineeData = (values) => {
@@ -34,7 +34,7 @@ class ChildrenDemo extends Component {
     return (
       <>
         <Button variant="outlined" onClick={this.handleClick} color="primary">ADD TRAINEE</Button>
-        <AddDialog open={open} onClose={this.handleClose} onSubmit={this.handleSubmit} aria-labelledby="Add Trainee" />
+        <AddDialog open={open} onClose={this.handleClose} onSubmit={this.handelTraineeData}/>
       </>
     );
   }
