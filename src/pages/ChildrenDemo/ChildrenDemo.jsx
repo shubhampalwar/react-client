@@ -52,10 +52,18 @@ class ChildrenDemo extends Component {
           <Math first={7} second={8} operator="^" />
         </p>
         <div>
-          <Math first={2} second={0} operator="/">
+          <Math first={2} second={0} operator="-">
             {
               this.customTemplate
             }
+          </Math>
+          <Math first={2} second={0} operator="/">
+            {(first, second, operator, result)=> {
+              if (!this.getOperator(operator)) {return <p>Invalid Operation</p>;}
+              return (
+                <p>{`When we ${this.getOperator(operator)} ${first} with ${second} we get ${result}`}</p>
+              );
+            }}
           </Math>
         </div>
       </>
