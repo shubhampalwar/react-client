@@ -10,17 +10,18 @@ class SelectField extends Component {
 
   render() {
     const {
-      error, value, options, defaultText, ...rest
+      error, options, defaultText, title, ...rest
     } = this.props;
     const errorStyle = error ? { ...style.error } : {};
     return (
       <>
+        <div style={style.title}>{title}</div>
         <select
-          defaultValue={defaultText}
+          value={defaultText}
           {...rest}
           style={{ ...style.base, ...errorStyle }}
         >
-          <option style={style.base} value={defaultText} disabled>
+          <option style={style.base} value="" disabled>
             {defaultText}
           </option>
           {options.map(option => (
@@ -29,7 +30,7 @@ class SelectField extends Component {
             </option>
           ))}
         </select>
-        <div>{error ? <p style={{ color: 'red' }}>{error}</p> : ''}</div>
+        <div style={style.errorText}>{error}</div>
       </>
     );
   }
@@ -43,6 +44,7 @@ SelectField.propTypes = {
     PropTypes.shape({ label: PropTypes.string, value: PropTypes.string }),
   ),
   defaultText: PropTypes.string,
+  title: PropTypes.string.isRequired,
 };
 SelectField.defaultProps = {
   defaultText: 'Select',

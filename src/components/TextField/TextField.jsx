@@ -9,12 +9,13 @@ class TextField extends Component {
   }
 
   render() {
-    const { error, ...rest } = this.props;
-    const errorStyle = error ? { ...style.error } : {};
+    const { error, title, ...rest } = this.props;
+    const errorStyle = error ? style.error : {};
     return (
       <>
+        <div style={style.title}>{title}</div>
         <input type="text" {...rest} style={{ ...style.base, ...errorStyle }} />
-        {error ? <p style={{ color: 'red' }}>{error}</p> : ''}
+        <div style={style.errorText}>{error}</div>
       </>
     );
   }
@@ -24,6 +25,7 @@ TextField.propTypes = {
   error: PropTypes.string,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  title: PropTypes.string.isRequired,
 };
 TextField.defaultProps = {
   error: '',

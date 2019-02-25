@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import style from './style';
 
 class RadioGroup extends Component {
   constructor(props) {
@@ -11,11 +12,11 @@ class RadioGroup extends Component {
 
   render() {
     const {
-      error, options, value, ...rest
+      error, title, options, value, ...rest
     } = this.props;
     return (
       <>
-        <h3>What do you do?</h3>
+        <div style={style.title}>{title}</div>
         {options.map(option => (
           <label key={option.value}>
             <input type="radio" {...rest} name={value} value={option.value} />
@@ -23,7 +24,7 @@ class RadioGroup extends Component {
             <br />
           </label>
         ))}
-        {error ? <p style={{ color: 'red' }}>{error}</p> : ''}
+        <div style={style.errorText}>{error}</div>
       </>
     );
   }
@@ -35,10 +36,12 @@ RadioGroup.propTypes = {
   options: PropTypes.arrayOf(
     PropTypes.shape({ label: PropTypes.string, value: PropTypes.string }),
   ),
+  title: PropTypes.string,
   onChange: PropTypes.func.isRequired,
 };
 RadioGroup.defaultProps = {
   error: '',
   options: [],
+  title: '',
 };
 export default RadioGroup;
