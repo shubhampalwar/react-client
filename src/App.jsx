@@ -1,11 +1,13 @@
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import React from 'react';
-// eslint-disable-next-line no-unused-vars
-import {TextFieldDemo ,InputDemo } from './pages';
+import { ChildrenDemo } from './pages';
+import theme from './theme';
 
 const App = () => (
   <>
-    {/* <TextFieldDemo /> */}
-    <InputDemo />
+    <MuiThemeProvider theme={theme}>
+      <ChildrenDemo />
+    </MuiThemeProvider>
   </>
 );
 export default App;
