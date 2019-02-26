@@ -3,11 +3,11 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import { AddDialog } from './components';
 
-class ChildrenDemo extends Component {
+class Trainee extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: true,
+      open: false,
     };
   }
 
@@ -39,4 +39,4 @@ class ChildrenDemo extends Component {
     );
   }
 }
-export default ChildrenDemo;
+export default Trainee;
