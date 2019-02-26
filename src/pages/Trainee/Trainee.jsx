@@ -8,6 +8,9 @@ class Trainee extends Component {
     super(props);
     this.state = {
       open: false,
+      name: '',
+      email: '',
+      password: '',
     };
   }
 
@@ -26,7 +29,10 @@ class Trainee extends Component {
   handelTraineeData = (values) => {
     this.setState({
       open: false,
-    }, () => console.log(values));
+      name: values.name,
+      email: values.email,
+      password: values.password,
+    }, () => console.log(this.state));
   }
 
   render() {
@@ -34,7 +40,7 @@ class Trainee extends Component {
     return (
       <>
         <Button variant="outlined" onClick={this.handleClick} color="primary">ADD TRAINEE</Button>
-        <AddDialog open={open} onClose={this.handleClose} onSubmit={this.handelTraineeData}/>
+        <AddDialog open={open} onClose={this.handleClose} onSubmit={this.handelTraineeData} />
       </>
     );
   }
