@@ -17,11 +17,15 @@ import * as yup from 'yup';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import { RemoveRedEye } from '@material-ui/icons';
 
 const styles = theme => ({
   container: {
     marginTop: theme.spacing.unit * 2,
     marginRight: theme.spacing.unit * 2,
+  },
+  eye: {
+    cursor: 'pointer',
   },
 });
 
@@ -61,13 +65,17 @@ class AddDialog extends Component {
       email: '',
       password: '',
       confirmPassword: '',
+      passwordMasked: { password: true, confirmPassword: true },
     };
   }
 
   handelChange = field => (event) => {
+    const { touched } = this.state;
+    touched[field] = true;
     this.setState(
       {
         [field]: event.target.value,
+        touched,
       },
       () => this.handleValidate(),
     );
@@ -113,6 +121,17 @@ class AddDialog extends Component {
     });
   };
 
+  handleCancel = () => {
+    this.props.onClose();
+    this.setState({
+      name: '',
+      password: '',
+      confirmPassword: '',
+      email: '',
+      touched: {},
+    });
+  }
+
   handleError = (errors) => {
     const allErrors = {};
     if (errors) {
@@ -127,7 +146,7 @@ class AddDialog extends Component {
 
   getErrors = (field) => {
     const { touched, errors } = this.state;
-    if (touched[field] || (field === 'confirmPassword' && touched.password)) {
+    if (touched[field]) {
       return errors[field] || '';
     }
     return null;
@@ -151,6 +170,22 @@ class AddDialog extends Component {
       error={!!this.getErrors(field)}
     />
   );
+
+  handleIcon = (field) => {
+    const { classes } = this.props;
+    if (this.state.passwordMasked[field]) {
+      return <VisibilityOffIcon onClick={this.togglePasswordMask(field)} className={classes.eye} />;
+    }
+    return <RemoveRedEye onClick={this.togglePasswordMask(field)} className={classes.eye} />;
+  }
+
+  togglePasswordMask = field => () => {
+    const { passwordMasked } = this.state;
+    passwordMasked[field] = !passwordMasked[field];
+    this.setState([
+      passwordMasked,
+    ]);
+  }
 
   render() {
     const { open, onClose, classes } = this.props;
@@ -188,8 +223,10 @@ class AddDialog extends Component {
                     'password',
                     'Password',
                     password,
-                    'password',
-                    <VisibilityOffIcon />,
+                    this.state.passwordMasked.password
+                      ? 'password'
+                      : 'text',
+                    this.handleIcon('password'),
                   )}
                 </Grid>
                 <Grid item xs={6}>
@@ -197,15 +234,17 @@ class AddDialog extends Component {
                     'confirmPassword',
                     'Confirm Password',
                     confirmPassword,
-                    'password',
-                    <VisibilityOffIcon />,
+                    this.state.passwordMasked.confirmPassword
+                      ? 'password'
+                      : 'text',
+                    this.handleIcon('confirmPassword')
                   )}
                 </Grid>
               </Grid>
             </div>
           </DialogContent>
           <DialogActions>
-            <Button onClick={onClose} color="primary">
+            <Button onClick={this.handleCancel} color="primary">
               Cancel
             </Button>
             <Button
