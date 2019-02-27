@@ -13,6 +13,7 @@ const styles = theme => ({
   },
   link: {
     color: 'white',
+    fontSize: '15px',
   },
   menuList: {
     marginRight: theme.spacing.unit * 2,
@@ -47,7 +48,7 @@ class NavBar extends Component {
   }
 }
 
-NavBar.prototypes = {
-  classes: PropTypes.object.isRequired,
+NavBar.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 export default withStyles(styles)(NavBar);

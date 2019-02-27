@@ -1,11 +1,12 @@
+/* eslint-disable no-console */
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import {
   withStyles, Button, CssBaseline, Paper, Avatar, Typography, TextField, InputAdornment, Grid,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
-import EmailIcon from '@material-ui/icons/Email';
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
+import { Email, VisibilityOff, RemoveRedEye } from '@material-ui/icons';
 import * as yup from 'yup';
 
 const styles = theme => ({
@@ -38,12 +39,15 @@ const styles = theme => ({
   submit: {
     marginTop: theme.spacing.unit * 3,
   },
+  eye: {
+    cursor: 'pointer',
+  },
 });
 
 const validationSchema = yup.object({
   email: yup.string().email().required().label('Email'),
   password: yup.string().required().label('Password'),
-})
+});
 
 class Login extends Component {
   constructor(props) {
@@ -53,32 +57,45 @@ class Login extends Component {
       password: '',
       errors: {},
       touched: {},
+      confirmPassword: '',
+      passwordMasked: { password: true, confirmPassword: true },
     };
   }
 
   handelChange = field => (event) => {
-    this.setState({
+    const { touched } = this.state;
+    touched[field] = true;
+    this.setState(
+      {
         [field]: event.target.value,
-      }, () => this.handleValidate());
+        touched,
+      },
+      () => this.handleValidate(),
+    );
   };
 
   handleSubmit = () => {
-    // const { email, password } = this.state;
-
-    console.log(this.state);
+    const { email, password } = this.state;
+    this.setState({
+      email: '',
+      password: '',
+      touched: {},
+      confirmPassword: '',
+      passwordMasked: { password: true, confirmPassword: true },
+    });
+    console.log({ email, password });
   }
 
   handleBlur = field => () => {
     const { touched } = this.state;
     touched[field] = true;
-    this.setState({ touched }, () => { console.log(this.state);
-    ; this.handleValidate();});
+    this.setState({ touched }, () => this.handleValidate());
   };
 
   handleValidate = () => {
     const { email, password } = this.state;
     validationSchema
-      .validate({ email,password },{ abortEarly: false })
+      .validate({ email, password }, { abortEarly: false })
       .then(() => {
         this.handleError(null);
       })
@@ -94,8 +111,6 @@ class Login extends Component {
         allErrors[error.path] = error.message;
       });
     }
-  console.log('all error', allErrors);
-
     this.setState({
       errors: allErrors,
     });
@@ -103,11 +118,7 @@ class Login extends Component {
 
   getErrors = (field) => {
     const { errors, touched } = this.state;
-
-    if (!touched[field]) {
-      return null;
-    }
-
+    if (!touched[field]) { return null; }
     return errors[field] || '';
   }
 
@@ -130,6 +141,22 @@ class Login extends Component {
     />
   );
 
+  handleIcon = (field) => {
+    const { classes } = this.props;
+    if (this.state.passwordMasked[field]) {
+      return <VisibilityOff onClick={this.togglePasswordMask(field)} className={classes.eye} />;
+    }
+    return <RemoveRedEye onClick={this.togglePasswordMask(field)} className={classes.eye} />;
+  }
+
+  togglePasswordMask = field => () => {
+    const { passwordMasked } = this.state;
+    passwordMasked[field] = !passwordMasked[field];
+    this.setState([
+      passwordMasked,
+    ]);
+  }
+
   render() {
     const { classes } = this.props;
     const { email, password } = this.state;
@@ -149,7 +176,7 @@ class Login extends Component {
                   'Email',
                   email,
                   'texts',
-                  <EmailIcon />,
+                  <Email />,
                 )}
               </Grid>
               <Grid item xs={12}>
@@ -157,21 +184,23 @@ class Login extends Component {
                   'password',
                   'Password',
                   password,
-                  'password',
-                  <VisibilityOffIcon />,
+                  this.state.passwordMasked.password
+                    ? 'password'
+                    : 'text',
+                  this.handleIcon('password'),
                 )}
               </Grid>
               <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            disabled={this.checkState('errors') || !this.checkState('touched')}
-            className={classes.submit}
-            onClick={this.handleSubmit}
-          >
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                disabled={this.checkState('errors') || !this.checkState('touched')}
+                className={classes.submit}
+                onClick={this.handleSubmit}
+              >
             Sign in
-</Button>
+              </Button>
             </Grid>
           </Paper>
         </main>
@@ -180,8 +209,8 @@ class Login extends Component {
   }
 }
 
-Login.prototypes = {
-  classes: PropTypes.object.isRequired,
+Login.propTypes = {
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
 export default withStyles(styles)(Login);

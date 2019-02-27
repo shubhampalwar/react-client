@@ -41,7 +41,7 @@ class Trainee extends Component {
     return (
       <>
         <NavBar />
-        <Button style={{margin: '20 px 0px'}} variant="outlined" onClick={this.handleClick} color="primary">ADD TRAINEE</Button>
+        <Button style={{ margin: '20px 0px' }} variant="outlined" onClick={this.handleClick} color="primary">ADD TRAINEE</Button>
         <AddDialog open={open} onClose={this.handleClose} onSubmit={this.handelTraineeData} />
       </>
     );
