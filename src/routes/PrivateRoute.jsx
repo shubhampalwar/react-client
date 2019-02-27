@@ -14,7 +14,6 @@ class PrivateRoute extends Component {
     return (
       <>
         <PrivateLayout />
-        <h1>PrivateRoute</h1>
         <Route {...rest} component={Comp} />
       </>
     );

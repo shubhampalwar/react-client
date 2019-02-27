@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { NavBar } from '../components';
-// import PropTypes from 'prop-types';
-// import { Route } from 'react-router-dom';
 
 class PrivateLayout extends Component {
   constructor(props) {

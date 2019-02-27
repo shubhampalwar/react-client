@@ -13,9 +13,8 @@ class AuthRoutes extends Component {
     const { component: Comp, ...rest } = this.props;
     return (
       <>
-        <h1>AuthRoutes</h1>
-        <AuthLayout />
         <Route {...rest} component={Comp} />
+        <AuthLayout />
       </>
     );
   }

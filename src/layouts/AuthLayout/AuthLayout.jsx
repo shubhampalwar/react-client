@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Footer } from '../components';
 
 class AuthLayout extends Component {
   constructor(props) {
@@ -9,7 +10,7 @@ class AuthLayout extends Component {
   render() {
     return (
       <>
-
+        <Footer />
       </>
     );
   }
