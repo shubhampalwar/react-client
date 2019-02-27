@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable no-console */
 import * as yup from 'yup';
 import React, { Component } from 'react';
@@ -110,7 +111,7 @@ class InputDemo extends Component {
     );
   }
 
-  checkState = (field) => (Object.keys(this.state[field]).length !== 0)
+  checkState = field => (Object.keys(this.state[field]).length !== 0)
 
   render() {
     const { name, sports } = this.state;
