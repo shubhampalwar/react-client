@@ -14,7 +14,9 @@ class PrivateRoute extends Component {
     return (
       <>
         <PrivateLayout />
-        <Route {...rest} component={Comp} />
+        <div style={{ margin: '5px 20px' }}>
+          <Route {...rest} component={Comp} />
+        </div>
       </>
     );
   }

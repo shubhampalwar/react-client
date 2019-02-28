@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  AppBar, Button, Toolbar, Typography, withStyles,
+  AppBar, Toolbar, Typography, withStyles, CssBaseline,
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
@@ -37,6 +37,7 @@ class NavBar extends Component {
     return (
       <>
         <AppBar className={classes.AppBar} color="primary" position="static">
+          <CssBaseline />
           <Toolbar>
             <Typography className={classes.toolbarTitle} variant="h6" color="inherit" noWrap>Trainee Portal</Typography>
             <div className={classes.menuList}>
@@ -45,7 +46,7 @@ class NavBar extends Component {
               <Link to="/input-demo" className={classes.link} color="default" variant="text">INPUT DEMO</Link>
               <Link to="/children-demo" className={classes.link} color="default" variant="text">CHILDREN DEMO</Link>
             </div>
-            <Button className={classes.link} color="default" variant="text">LOGOUT</Button>
+            <Link to="/login" className={classes.link} color="default" variant="text">LOGOUT</Link>
           </Toolbar>
         </AppBar>
       </>

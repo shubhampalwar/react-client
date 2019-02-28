@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router, Route, Redirect, Switch,
 } from 'react-router-dom';
 import {
-  ChildrenDemo, Trainee, Login, InputDemo, TextFieldDemo,
+  ChildrenDemo, Trainee, Login, InputDemo, TextFieldDemo, NoMatch,
 } from './pages';
 
 import { AuthRoutes, PrivateRoute } from './routes';
@@ -23,6 +23,7 @@ const App = () => (
           <AuthRoutes path="/login" component={Login} />
           <PrivateRoute path="/input-demo" component={InputDemo} />
           <PrivateRoute path="/text-field-demo" component={TextFieldDemo} />
+          <PrivateRoute path="/" component={NoMatch} />
         </Switch>
       </MuiThemeProvider>
     </Router>
