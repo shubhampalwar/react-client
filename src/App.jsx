@@ -18,12 +18,12 @@ const App = () => (
           <Route exact path="/">
             <Redirect to="/login" />
           </Route>
-          <PrivateRoute path="/children-demo" component={ChildrenDemo} />
+          <PrivateRoute exact path="/children-demo" component={ChildrenDemo} />
           <PrivateRoute path="/trainee" component={Trainee} />
-          <AuthRoutes path="/login" component={Login} />
-          <PrivateRoute path="/input-demo" component={InputDemo} />
-          <PrivateRoute path="/text-field-demo" component={TextFieldDemo} />
-          <PrivateRoute path="/" component={NoMatch} />
+          <AuthRoutes exact path="/login" component={Login} />
+          <PrivateRoute exact path="/input-demo" component={InputDemo} />
+          <PrivateRoute exact path="/text-field-demo" component={TextFieldDemo} />
+          <PrivateRoute component={NoMatch} />
         </Switch>
       </MuiThemeProvider>
     </Router>

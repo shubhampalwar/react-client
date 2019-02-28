@@ -20,11 +20,11 @@ class TextFieldDemo extends Component {
       <div style={{ width: '100%', display: 'flex', flexDirection: 'column' }}>
         <Slider banners={imgArr} />
         <h1>This is a Disabled Input</h1>
-        <TextField disabled value="Disabled Input" />
+        <TextField title="" onChange={() => {}} disabled value="Disabled Input" />
         <h1>A Valid Input</h1>
-        <TextField value="Accessible" />
+        <TextField title="" onChange={() => {}} value="Accessible" />
         <h1>An Input with errors</h1>
-        <TextField value="101" error="Could not be greater than" />
+        <TextField title="" onChange={() => {}} value="101" error="Could not be greater than" />
       </div>
     );
   }
