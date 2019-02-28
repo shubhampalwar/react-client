@@ -14,10 +14,9 @@ import {
   withStyles,
 } from '@material-ui/core';
 import * as yup from 'yup';
-import PersonIcon from '@material-ui/icons/Person';
-import EmailIcon from '@material-ui/icons/Email';
-import VisibilityOffIcon from '@material-ui/icons/VisibilityOff';
-import { RemoveRedEye } from '@material-ui/icons';
+import {
+  RemoveRedEye, VisibilityOff, Email, Person,
+} from '@material-ui/icons';
 
 const styles = theme => ({
   container: {
@@ -129,6 +128,7 @@ class AddDialog extends Component {
       confirmPassword: '',
       email: '',
       touched: {},
+      passwordMasked: { password: true, confirmPassword: true },
     });
   }
 
@@ -174,7 +174,7 @@ class AddDialog extends Component {
   handleIcon = (field) => {
     const { classes } = this.props;
     if (this.state.passwordMasked[field]) {
-      return <VisibilityOffIcon onClick={this.togglePasswordMask(field)} className={classes.eye} />;
+      return <VisibilityOff onClick={this.togglePasswordMask(field)} className={classes.eye} />;
     }
     return <RemoveRedEye onClick={this.togglePasswordMask(field)} className={classes.eye} />;
   }
@@ -206,7 +206,7 @@ class AddDialog extends Component {
                     'Name',
                     name,
                     'texts',
-                    <PersonIcon />,
+                    <Person />,
                   )}
                 </Grid>
                 <Grid item xs={12}>
@@ -215,7 +215,7 @@ class AddDialog extends Component {
                     'Email',
                     email,
                     'texts',
-                    <EmailIcon />,
+                    <Email />,
                   )}
                 </Grid>
                 <Grid item xs={6}>
@@ -237,7 +237,7 @@ class AddDialog extends Component {
                     this.state.passwordMasked.confirmPassword
                       ? 'password'
                       : 'text',
-                    this.handleIcon('confirmPassword')
+                    this.handleIcon('confirmPassword'),
                   )}
                 </Grid>
               </Grid>
