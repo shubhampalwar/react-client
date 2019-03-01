@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Email, VisibilityOff, RemoveRedEye } from '@material-ui/icons';
 import * as yup from 'yup';
+import { Link } from 'react-router-dom';
+
 
 const styles = theme => ({
   main: {
@@ -33,7 +35,6 @@ const styles = theme => ({
     backgroundColor: theme.palette.secondary.main,
   },
   form: {
-    // width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing.unit * 2,
   },
   submit: {
@@ -41,6 +42,13 @@ const styles = theme => ({
   },
   eye: {
     cursor: 'pointer',
+  },
+  link: {
+    color: 'inherit',
+    fontSize: 'inherit',
+    textDecoration: 'none',
+    width: 'inherit',
+    boxSizing: 'border-box',
   },
 });
 
@@ -199,7 +207,7 @@ class Login extends Component {
                 className={classes.submit}
                 onClick={this.handleSubmit}
               >
-            Sign in
+                <Link className={classes.link} to="/trainee">Sign in</Link>
               </Button>
             </Grid>
           </Paper>
