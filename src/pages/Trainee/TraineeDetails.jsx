@@ -1,29 +1,38 @@
-/* eslint-disable no-console */
 import React, { Component } from 'react';
 import {
-  withStyles, Card, CardMedia, CardContent, Typography,
+  withStyles, Card, CardMedia, CardContent, Typography, Button,
 } from '@material-ui/core/';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { trainees } from './data';
 import { NoMatch } from '../NoMatch';
+import dateFormat from '../../lib/utils/dateFormat';
 
-const styles = {
+const styles = theme => ({
   card: {
     display: 'flex',
+    backgroundColor: '#F0E6E4',
   },
   cover: {
-    width: 151,
-    height: 150,
+    width: 175,
+    height: 175,
   },
-  details: {
+  divButton: {
     display: 'flex',
-    flexDirection: 'column',
-
+    justifyContent: 'center',
   },
   content: {
     flex: '1 0 auto',
   },
-};
+  backButton: {
+    marginTop: theme.spacing.unit * 2,
+    width: 'default',
+  },
+  link: {
+    color: 'inherit',
+    textDecoration: 'none',
+  },
+});
 
 class TraineeDetails extends Component {
   constructor(props) {
@@ -44,24 +53,26 @@ class TraineeDetails extends Component {
     const {
       name, email, createdAt, img,
     } = trainee;
-    console.log('trainee', trainee);
     return (
-      <Card className={classes.card}>
-        <CardMedia image={img} title={NamedNodeMap} className={classes.cover} />
-        <div className={classes.details}>
+      <>
+        <Card className={classes.card}>
+          <CardMedia image={img} title={name} className={classes.cover} />
           <CardContent className={classes.content}>
             <Typography component="h6" variant="h6">
               {name}
             </Typography>
             <Typography variant="subtitle1" color="textSecondary">
-              {createdAt}
+              {dateFormat(createdAt)}
             </Typography>
             <Typography variant="body2" color="textPrimary">
               {email}
             </Typography>
           </CardContent>
+        </Card>
+        <div className={classes.divButton}>
+          <Button className={classes.backButton} color="primary" variant="contained"><Link className={classes.link} to="/trainee">Back</Link></Button>
         </div>
-      </Card>
+      </>
     );
   }
 

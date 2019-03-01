@@ -38,20 +38,18 @@ class TraineeList extends Component {
     }, () => console.log(this.state));
   }
 
-  renderList = () => {
-    console.log('inside list');
-    return (
-      <ul>
-        {trainees.map(trainee => this.renderTrainee(trainee))}
-      </ul>
-    );
-  }
+  renderList = () => (
+    <ul>
+      {trainees.map(trainee => this.renderTrainee(trainee))}
+    </ul>
+  )
 
   renderTrainee = (trainee) => {
     const { match } = this.props;
+    const { name, id } = trainee;
     return (
-      <li>
-        <Link to={`${match.path}/${trainee.id}`}>{trainee.name}</Link>
+      <li key={id}>
+        <Link to={`${match.path}/${id}`}>{name}</Link>
       </li>
     );
   }
