@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { AddDialog } from './components';
 import { trainees } from './data';
+import { Table } from '../../components';
 
 class TraineeList extends Component {
   constructor(props) {
@@ -38,12 +39,6 @@ class TraineeList extends Component {
     }, () => console.log(this.state));
   }
 
-  renderList = () => (
-    <ul>
-      {trainees.map(trainee => this.renderTrainee(trainee))}
-    </ul>
-  )
-
   renderTrainee = (trainee) => {
     const { match } = this.props;
     const { name, id } = trainee;
@@ -59,9 +54,24 @@ class TraineeList extends Component {
     return (
       <>
         <Button style={{ margin: '5px 0px' }} variant="outlined" onClick={this.handleClick} color="primary">ADD TRAINEE LIST </Button>
-        {
-          this.renderList()
-        }
+        <Table
+          id="id"
+          data={trainees}
+          columns={[
+            {
+              field: 'name',
+              label: 'Name',
+              align: 'center',
+            },
+            {
+              field: 'email',
+              label: 'Email Address',
+            },
+          ]}
+        />
+        <ul>
+          {trainees.map(trainee => this.renderTrainee(trainee))}
+        </ul>
         <AddDialog open={open} onClose={this.handleClose} onSubmit={this.handelTraineeData} />
       </>
     );
