@@ -21,7 +21,7 @@ class AuthRoutes extends Component {
 }
 
 AuthRoutes.propTypes = {
-  component: PropTypes.element.isRequired,
+  component: PropTypes.func.isRequired,
 };
 
 export default AuthRoutes;

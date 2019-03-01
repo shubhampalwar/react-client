@@ -44,9 +44,7 @@ class ChildrenDemo extends Component {
           <Math first={24} second={4} operator="/" />
         </p>
         <Typography>
-          <p>
-            <Math first={7} second={0} operator="/" />
-          </p>
+          <Math first={7} second={0} operator="/" />
         </Typography>
         <p>
           <Math first={7} second={8} operator="^" />
