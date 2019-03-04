@@ -1,11 +1,11 @@
 /* eslint-disable no-console */
 import React, { Component } from 'react';
-import Button from '@material-ui/core/Button';
+import { Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import { AddDialog } from './components';
 import { trainees } from './data';
 import { Table } from '../../components';
+import dateFormat from '../../lib/utils/dateFormat';
 
 class TraineeList extends Component {
   constructor(props) {
@@ -15,6 +15,8 @@ class TraineeList extends Component {
       name: '',
       email: '',
       password: '',
+      orderBy: '',
+      order: 'asc',
     };
   }
 
@@ -30,6 +32,24 @@ class TraineeList extends Component {
     });
   }
 
+  handleSelect = (data) => {
+    const { match: { path }, history } = this.props;
+    const { id } = data;
+    history.push(`${path}/${id}`);
+  }
+
+  handleSort = (field) => {
+    const { order, orderBy } = this.state;
+    let sortOrder = 'asc';
+    if (order === 'asc' && orderBy === field) {
+      sortOrder = 'desc';
+    }
+    this.setState({
+      orderBy: field,
+      order: sortOrder,
+    });
+  }
+
   handelTraineeData = (values) => {
     this.setState({
       open: false,
@@ -39,18 +59,8 @@ class TraineeList extends Component {
     }, () => console.log(this.state));
   }
 
-  renderTrainee = (trainee) => {
-    const { match } = this.props;
-    const { name, id } = trainee;
-    return (
-      <li key={id}>
-        <Link to={`${match.path}/${id}`}>{name}</Link>
-      </li>
-    );
-  }
-
   render() {
-    const { open } = this.state;
+    const { open, order, orderBy } = this.state;
     return (
       <>
         <Button style={{ margin: '5px 0px' }} variant="outlined" onClick={this.handleClick} color="primary">ADD TRAINEE LIST </Button>
@@ -66,12 +76,20 @@ class TraineeList extends Component {
             {
               field: 'email',
               label: 'Email Address',
+              format: value => value && value.toUpperCase(),
+            },
+            {
+              field: 'createdAt',
+              label: 'Date',
+              align: 'right',
+              format: value => dateFormat(value),
             },
           ]}
+          orderBy={orderBy}
+          order={order}
+          onSort={this.handleSort}
+          onSelect={this.handleSelect}
         />
-        <ul>
-          {trainees.map(trainee => this.renderTrainee(trainee))}
-        </ul>
         <AddDialog open={open} onClose={this.handleClose} onSubmit={this.handelTraineeData} />
       </>
     );
@@ -80,6 +98,7 @@ class TraineeList extends Component {
 
 TraineeList.propTypes = {
   match: PropTypes.objectOf(PropTypes.any).isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default TraineeList;

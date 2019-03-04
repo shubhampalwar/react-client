@@ -1,8 +1,24 @@
+/* eslint-disable react/destructuring-assignment */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Paper, Table, TableHead, TableRow, TableCell, TableBody,
+  Paper, Table, TableHead, TableRow, TableCell, TableBody, withStyles, TableSortLabel,
 } from '@material-ui/core';
+
+const styles = theme => ({
+  tableRow: {
+    cursor: 'pointer',
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.grey[100],
+    },
+    '&:hover': {
+      backgroundColor: theme.palette.grey[300],
+    },
+  },
+  tableHeader: {
+    cursor: 'pointer',
+  },
+});
 
 class TableComponent extends Component {
   constructor(props) {
@@ -10,16 +26,28 @@ class TableComponent extends Component {
     this.state = {};
   }
 
-  renderTable = (columns, data) => (
+  handleSelect = data => () => {
+    this.props.onSelect(data);
+  }
+
+  handleSort = field => () => {
+    this.props.onSort(field);
+  }
+
+  renderTable = (columns, data, id) => (
     data.map((trainee) => {
-      const { id } = trainee;
+      const { classes } = this.props;
       return (
-        <TableRow key={id}>
+        <TableRow
+          onClick={this.handleSelect(trainee)}
+          className={classes.tableRow}
+          key={trainee[id]}
+        >
           {
             columns.map((column) => {
-              const { align, field } = column;
+              const { align, field, format } = column;
               return (
-                <TableCell align={align} key={`${id}${field}`}>{trainee[field]}</TableCell>
+                <TableCell align={align} key={`${trainee[id]}${field}`}>{(format) ? format(trainee[field]) : trainee[field]}</TableCell>
               );
             })
           }
@@ -29,22 +57,33 @@ class TableComponent extends Component {
   )
 
   render() {
-    const { id, data, columns } = this.props;
+    const {
+      id, data, columns, classes, orderBy, order,
+    } = this.props;
     return (
       <Paper>
         <Table id={id}>
           <TableHead>
             <TableRow>
-              {columns.map(column => (
-                <TableCell align={column.align} key={column.field}>
-                  { (!column.label) ? column.field : column.label }
-                </TableCell>
-              ))}
+              {columns.map((column) => {
+                const { field, label, align } = column;
+                return (
+                  <TableCell
+                    className={classes.tableHeader}
+                    onClick={this.handleSort(field)}
+                    align={align}
+                    key={field}
+                  >
+                    { (!label) ? field : label }
+                    <TableSortLabel direction={order} active={orderBy === field} />
+                  </TableCell>
+                );
+              })}
             </TableRow>
           </TableHead>
           <TableBody>
             {
-              this.renderTable(columns, data)
+              this.renderTable(columns, data, id)
             }
           </TableBody>
         </Table>
@@ -57,6 +96,18 @@ TableComponent.propTypes = {
   id: PropTypes.string.isRequired,
   data: PropTypes.arrayOf(PropTypes.object).isRequired,
   columns: PropTypes.arrayOf(PropTypes.object).isRequired,
+  orderBy: PropTypes.string,
+  order: PropTypes.string,
+  onSort: PropTypes.func,
+  onSelect: PropTypes.func,
+  classes: PropTypes.objectOf(PropTypes.string).isRequired,
 };
 
-export default TableComponent;
+TableComponent.defaultProps = {
+  order: '',
+  orderBy: '',
+  onSelect: () => {},
+  onSort: () => {},
+};
+
+export default withStyles(styles)(TableComponent);

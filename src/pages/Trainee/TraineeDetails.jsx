@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { trainees } from './data';
 import { NoMatch } from '../NoMatch';
 import dateFormat from '../../lib/utils/dateFormat';
+import { TRAINEE } from '../../configs/constants';
 
 const styles = theme => ({
   card: {
@@ -70,7 +71,7 @@ class TraineeDetails extends Component {
           </CardContent>
         </Card>
         <div className={classes.divButton}>
-          <Button className={classes.backButton} color="primary" variant="contained"><Link className={classes.link} to="/trainee">Back</Link></Button>
+          <Button className={classes.backButton} color="primary" variant="contained"><Link className={classes.link} to={TRAINEE}>Back</Link></Button>
         </div>
       </>
     );
