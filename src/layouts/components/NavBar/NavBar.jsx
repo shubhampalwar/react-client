@@ -4,6 +4,9 @@ import {
 } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import {
+  CHILDREN_DEMO, TRAINEE, LOGIN, INPUT_DEMO, TEXT_FIELD_DEMO,
+} from '../../../configs/constants';
 
 const styles = theme => ({
   toolbarTitle: {
@@ -41,12 +44,12 @@ class NavBar extends Component {
           <Toolbar>
             <Typography className={classes.toolbarTitle} variant="h6" color="inherit" noWrap>Trainee Portal</Typography>
             <div className={classes.menuList}>
-              <Link to="/trainee" className={classes.link} color="default" variant="text">TRAINEE</Link>
-              <Link to="/text-field-demo" className={classes.link} color="default" variant="text">TEXTFIELD DEMO</Link>
-              <Link to="/input-demo" className={classes.link} color="default" variant="text">INPUT DEMO</Link>
-              <Link to="/children-demo" className={classes.link} color="default" variant="text">CHILDREN DEMO</Link>
+              <Link to={TRAINEE} className={classes.link} color="default" variant="text">TRAINEE</Link>
+              <Link to={TEXT_FIELD_DEMO} className={classes.link} color="default" variant="text">TEXTFIELD DEMO</Link>
+              <Link to={INPUT_DEMO} className={classes.link} color="default" variant="text">INPUT DEMO</Link>
+              <Link to={CHILDREN_DEMO} className={classes.link} color="default" variant="text">CHILDREN DEMO</Link>
             </div>
-            <Link to="/login" className={classes.link} color="default" variant="text">LOGOUT</Link>
+            <Link to={LOGIN} className={classes.link} color="default" variant="text">LOGOUT</Link>
           </Toolbar>
         </AppBar>
       </>
