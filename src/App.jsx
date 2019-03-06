@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import React from 'react';
 import {
@@ -11,10 +12,11 @@ import theme from './theme';
 import {
   CHILDREN_DEMO, TRAINEE, LOGIN, INPUT_DEMO, TEXT_FIELD_DEMO,
 } from './configs/constants';
+import { SnackBarProvider } from './contexts';
 
 const App = () => (
-  <>
-    <Router>
+  <Router>
+    <SnackBarProvider>
       <MuiThemeProvider theme={theme}>
         <Switch>
           <Route exact path="/">
@@ -28,8 +30,7 @@ const App = () => (
           <PrivateRoute component={NoMatch} />
         </Switch>
       </MuiThemeProvider>
-    </Router>
-
-  </>
+    </SnackBarProvider>
+  </Router>
 );
 export default App;

@@ -32,27 +32,25 @@ class RemoveDialog extends Component {
     } = this.props;
     const { name, email } = this.state;
     return (
-      <>
-        <Dialog open={open} onClose={onClose} maxWidth="xl" fullWidth>
-          <DialogTitle>Remove Trainee</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Do you really want to remove the trainee</DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button className={classes.button} onClick={onClose} color="primary">
+      <Dialog open={open} onClose={onClose} maxWidth="xl" fullWidth>
+        <DialogTitle>Remove Trainee</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Do you really want to remove the trainee</DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button className={classes.button} onClick={onClose} color="primary">
               Cancel
-            </Button>
-            <Button
-              className={classes.button}
-              variant="contained"
-              onClick={() => onDelete({ name, email })}
-              color="primary"
-            >
+          </Button>
+          <Button
+            className={classes.button}
+            variant="contained"
+            onClick={() => onDelete({ name, email })}
+            color="primary"
+          >
               Delete
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </>
+          </Button>
+        </DialogActions>
+      </Dialog>
     );
   }
 }
