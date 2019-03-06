@@ -44,14 +44,6 @@ class TableComponent extends Component {
     this.state = {};
   }
 
-  handleSelect = data => () => {
-    this.props.onSelect(data);
-  };
-
-  handleSort = field => () => {
-    this.props.onSort(field);
-  };
-
   renderTable = (columns, data, id, actions) => data.map((trainee) => {
     const { classes } = this.props;
     return (
@@ -61,7 +53,7 @@ class TableComponent extends Component {
           return (
             <TableCell
               align={align}
-              onClick={this.handleSelect(trainee)}
+              onClick={() => this.props.onSelect(trainee)}
               key={`${trainee[id]}${field}`}
             >
               {format ? format(trainee[field]) : trainee[field]}
@@ -71,9 +63,9 @@ class TableComponent extends Component {
         {!actions ? null : (
           <TableCell align="center">
             <div className={classes.actionIcons}>
-              {actions.map((action, index) => (
+              {actions.map(action => (
                 <Button
-                  key={`${trainee[id]}.${index}`}
+                  key={`${trainee[id]}.${Math.random()}`}
                   onClick={() => action.handler(trainee)}
                 >
                   {action.icon}
@@ -88,7 +80,8 @@ class TableComponent extends Component {
 
   render() {
     const {
-      id, data, columns, classes, orderBy, order, onChangePage, page, actions, count, rowsPerPage,
+      id, data, columns, classes, orderBy, order, onChangePage,
+      page, actions, count, rowsPerPage, onSort,
     } = this.props;
     return (
       <Paper>
@@ -100,11 +93,11 @@ class TableComponent extends Component {
                 return (
                   <TableCell
                     className={classes.tableHeader}
-                    onClick={this.handleSort(field)}
+                    onClick={() => onSort(field)}
                     align={align}
                     key={field}
                   >
-                    {!label ? field : label}
+                    { label || field }
                     <TableSortLabel
                       direction={order}
                       active={orderBy === field}
@@ -163,8 +156,8 @@ TableComponent.defaultProps = {
   onSort: () => {},
   actions: null,
   count: 0,
-  page: 0,
-  rowsPerPage: 100,
+  page: 1,
+  rowsPerPage: 10,
   onChangePage: () => {},
 };
 

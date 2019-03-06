@@ -26,18 +26,6 @@ class RemoveDialog extends Component {
     };
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { data } = nextProps;
-    const { name, email } = prevState;
-    if (name !== data.name && email !== data.email) {
-      return {
-        name: data.name,
-        email: data.email,
-      };
-    }
-    return null;
-  }
-
   render() {
     const {
       open, onClose, classes, onDelete,

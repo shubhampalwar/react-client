@@ -43,31 +43,9 @@ class EditDialog extends Component {
     this.state = {
       errors: {},
       touched: {},
-      name: '',
-      email: '',
+      name: props.data.name,
+      email: props.data.email,
     };
-  }
-
-  // componentDidMount() {
-  //   const { data: { name, email } } = this.props;
-  //   console.log(name);
-  //   console.log(email);
-  //   this.setState({
-  //     name,
-  //     email,
-  //   });
-  // }
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { data } = nextProps;
-    const { name, email, flag } = prevState;
-    if (!flag || (name !== data.name && email !== data.email)) {
-      return {
-        name: data.name,
-        email: data.email,
-        flag: !flag,
-      };
-    }
-    return null;
   }
 
   handelChange = field => (event) => {
@@ -80,12 +58,6 @@ class EditDialog extends Component {
       },
       () => this.handleValidate(),
     );
-  };
-
-  handleBlur = field => () => {
-    const { touched } = this.state;
-    touched[field] = true;
-    this.setState({ touched }, () => this.handleValidate());
   };
 
   handleValidate = () => {
@@ -105,25 +77,6 @@ class EditDialog extends Component {
         this.handleError(errors);
       });
   };
-
-  handleSubmit = () => {
-    const { name, email } = this.state;
-    this.props.onSubmit({ name, email });
-    this.setState({
-      name: '',
-      email: '',
-      touched: {},
-    });
-  };
-
-  handleCancel = () => {
-    this.props.onClose();
-    this.setState({
-      name: '',
-      email: '',
-      touched: {},
-    });
-  }
 
   handleError = (errors) => {
     const allErrors = {};
@@ -150,7 +103,6 @@ class EditDialog extends Component {
   renderInputField = (field, label, value, inputType, icon) => (
     <TextField
       variant="outlined"
-      onBlur={this.handleBlur(field)}
       value={value}
       type={inputType}
       onChange={this.handelChange(field)}
@@ -165,9 +117,10 @@ class EditDialog extends Component {
   );
 
   render() {
-    const { open, onClose, classes } = this.props;
+    const {
+      open, onClose, classes, onSubmit,
+    } = this.props;
     const { name, email } = this.state;
-
     return (
       <>
         <Dialog open={open} onClose={onClose} maxWidth="xl" fullWidth>
@@ -199,14 +152,14 @@ class EditDialog extends Component {
             </div>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleCancel} color="primary">
+            <Button onClick={onClose} color="primary">
               Cancel
             </Button>
             <Button
               variant="contained"
-              onClick={this.handleSubmit}
+              onClick={() => onSubmit({ name, email })}
               disabled={
-                this.checkState('errors')
+                this.checkState('errors') || !this.checkState('touched')
               }
               color="primary"
             >
