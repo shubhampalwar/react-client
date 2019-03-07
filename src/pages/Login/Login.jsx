@@ -1,15 +1,18 @@
 /* eslint-disable no-console */
 /* eslint-disable react/destructuring-assignment */
+
 import React, { Component } from 'react';
 import {
-  withStyles, Button, CssBaseline, Paper, Avatar, Typography, TextField, InputAdornment, Grid,
+  withStyles, Button, CssBaseline, Paper, Avatar, Typography,
+  TextField, InputAdornment, Grid, CircularProgress,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import { Email, VisibilityOff, RemoveRedEye } from '@material-ui/icons';
 import * as yup from 'yup';
-import { Link } from 'react-router-dom';
-
+import { callApi } from '../../lib/utils';
+import { TRAINEE } from '../../configs/constants';
+import { SnackBarContext } from '../../contexts';
 
 const styles = theme => ({
   main: {
@@ -39,6 +42,7 @@ const styles = theme => ({
   },
   submit: {
     marginTop: theme.spacing.unit * 3,
+    position: 'relative',
   },
   eye: {
     cursor: 'pointer',
@@ -49,6 +53,13 @@ const styles = theme => ({
     textDecoration: 'none',
     width: 'inherit',
     boxSizing: 'border-box',
+  },
+  buttonProgress: {
+    position: 'absolute',
+    align: 'center',
+  },
+  snackBar: {
+    textAlign: 'center',
   },
 });
 
@@ -67,6 +78,7 @@ class Login extends Component {
       touched: {},
       confirmPassword: '',
       passwordMasked: { password: true, confirmPassword: true },
+      loading: false,
     };
   }
 
@@ -82,8 +94,34 @@ class Login extends Component {
     );
   };
 
-  handleSubmit = () => {
-    const { email, password } = this.state;
+  handleSubmit = context => async (event) => {
+    try {
+      event.preventDefault();
+      const { email, password } = this.state;
+      const { history } = this.props;
+      this.setState({
+        loading: true,
+      });
+      const result = await callApi('post', '/login', { email, password });
+      if (result) {
+        this.setState({
+          loading: false,
+        });
+        history.push(TRAINEE);
+      }
+    } catch (err) {
+      this.setState({
+        loading: false,
+      });
+      const msg = (
+        <p className={this.props.classes.snackBar}>
+          {err.data.error}
+          <br />
+          {err.data.message}
+        </p>
+      );
+      context(msg, 'error');
+    }
     this.setState({
       email: '',
       password: '',
@@ -91,7 +129,6 @@ class Login extends Component {
       confirmPassword: '',
       passwordMasked: { password: true, confirmPassword: true },
     });
-    console.log({ email, password });
   }
 
   handleBlur = field => () => {
@@ -167,7 +204,9 @@ class Login extends Component {
 
   render() {
     const { classes } = this.props;
-    const { email, password } = this.state;
+    const {
+      email, password, passwordMasked, loading,
+    } = this.state;
     return (
       <>
         <main className={classes.main}>
@@ -192,23 +231,30 @@ class Login extends Component {
                   'password',
                   'Password',
                   password,
-                  this.state.passwordMasked.password
+                  passwordMasked.password
                     ? 'password'
                     : 'text',
                   this.handleIcon('password'),
                 )}
               </Grid>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                disabled={this.checkState('errors') || !this.checkState('touched')}
-                className={classes.submit}
-                onClick={this.handleSubmit}
-              >
-                <Link className={classes.link} to="/trainee">Sign in</Link>
-              </Button>
+              <SnackBarContext.Consumer>
+                {
+                  context => (
+                    <Button
+                      type="submit"
+                      fullWidth
+                      variant="contained"
+                      color="primary"
+                      disabled={this.checkState('errors') || !this.checkState('touched') || loading}
+                      className={classes.submit}
+                      onClick={this.handleSubmit(context)}
+                    >
+                      Sign in
+                      {loading && <CircularProgress className={classes.buttonProgress} />}
+                    </Button>
+                  )
+                }
+              </SnackBarContext.Consumer>
             </Grid>
           </Paper>
         </main>
@@ -219,6 +265,7 @@ class Login extends Component {
 
 Login.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default withStyles(styles)(Login);
