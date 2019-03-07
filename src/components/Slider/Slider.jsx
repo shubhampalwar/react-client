@@ -11,7 +11,7 @@ class Slider extends Component {
     };
   }
 
-  componentWillMount() {
+  componentWillUnmount() {
     clearInterval(this.interval);
     this.setState({
       index: 0,

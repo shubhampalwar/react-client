@@ -26,7 +26,7 @@ const trainees = [
   {
     id: '5c6c47af7747854f0915fac9',
     name: 'Rohit Sharma',
-    email: 'rohit.sharma',
+    email: 'rohit.sharma@gmail.com',
     createdAt: '2019-02-14T18:15:11.778Z',
     img: `${PATH}RohitSharma.jpg`,
   },

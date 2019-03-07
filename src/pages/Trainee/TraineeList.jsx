@@ -2,7 +2,9 @@
 import React, { Component } from 'react';
 import { Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { AddDialog } from './components';
+
+import { Edit, Delete } from '@material-ui/icons';
+import { AddDialog, EditDialog, RemoveDialog } from './components';
 import { trainees } from './data';
 import { Table } from '../../components';
 import dateFormat from '../../lib/utils/dateFormat';
@@ -11,24 +13,35 @@ class TraineeList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
+      open: {
+        addDialog: false,
+        editDialog: false,
+        removeDialog: false,
+      },
       name: '',
       email: '',
       password: '',
       orderBy: '',
       order: 'asc',
+      page: 0,
     };
   }
 
   handleClose = () => {
+    const { open } = this.state;
+    open.addDialog = false;
+    open.editDialog = false;
+    open.removeDialog = false;
     this.setState({
-      open: false,
+      open,
     });
   }
 
   handleClick = () => {
+    const { open } = this.state;
+    open.addDialog = true;
     this.setState({
-      open: true,
+      open,
     });
   }
 
@@ -50,17 +63,58 @@ class TraineeList extends Component {
     });
   }
 
-  handelTraineeData = (values) => {
+  handleEditDialogOpen = (values) => {
+    const { open } = this.state;
+    open.editDialog = true;
     this.setState({
-      open: false,
+      open,
+      name: values.name,
+      email: values.email,
+    });
+  }
+
+  handleRemoveDialogOpen = (values) => {
+    const { open } = this.state;
+    open.removeDialog = true;
+    this.setState({
+      open,
+      name: values.name,
+      email: values.email,
+    });
+  }
+
+  handelTraineeData = (values) => {
+    const { open } = this.state;
+    open.addDialog = false;
+    open.removeDialog = false;
+    this.setState({
+      open,
       name: values.name,
       email: values.email,
       password: values.password,
     }, () => console.log(this.state));
   }
 
+  handleChangePage = (event, page) => {
+    this.setState({
+      page,
+    });
+  }
+
+  handleDelete = (values) => {
+    const { open } = this.state;
+    console.log(values);
+    open.removeDialog = false;
+    open.editDialog = false;
+    this.setState({
+      open,
+    });
+  }
+
   render() {
-    const { open, order, orderBy } = this.state;
+    const {
+      open, order, orderBy, name, email, page,
+    } = this.state;
     return (
       <>
         <Button style={{ margin: '5px 0px' }} variant="outlined" onClick={this.handleClick} color="primary">ADD TRAINEE LIST </Button>
@@ -71,7 +125,6 @@ class TraineeList extends Component {
             {
               field: 'name',
               label: 'Name',
-              align: 'center',
             },
             {
               field: 'email',
@@ -85,12 +138,59 @@ class TraineeList extends Component {
               format: value => dateFormat(value),
             },
           ]}
+          actions={[
+            {
+              icon: <Edit />,
+              handler: this.handleEditDialogOpen,
+            },
+            {
+              icon: <Delete />,
+              handler: this.handleRemoveDialogOpen,
+            },
+          ]}
           orderBy={orderBy}
           order={order}
           onSort={this.handleSort}
           onSelect={this.handleSelect}
+          count={100}
+          page={page}
+          onChangePage={this.handleChangePage}
         />
-        <AddDialog open={open} onClose={this.handleClose} onSubmit={this.handelTraineeData} />
+        {
+          (!open.editDialog)
+            ? null
+            : (
+              <EditDialog
+                open={open.editDialog}
+                data={{ name, email }}
+                onClose={this.handleClose}
+                onSubmit={this.handleDelete}
+              />
+            )
+        }
+        {
+          (!open.addDialog)
+            ? null
+            : (
+              <AddDialog
+                open={open.addDialog}
+                onClose={this.handleClose}
+                onSubmit={this.handelTraineeData}
+              />
+            )
+        }
+        {
+          (!open.removeDialog)
+            ? null
+            : (
+              <RemoveDialog
+                data={{ name, email }}
+                open={open.removeDialog}
+                onClose={this.handleClose}
+                onDelete={this.handleDelete}
+              />
+            )
+        }
       </>
     );
   }
