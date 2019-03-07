@@ -15,6 +15,7 @@ import {
 } from '@material-ui/core';
 import * as yup from 'yup';
 import { Email, Person } from '@material-ui/icons';
+import { SnackBarContext } from '../../../../contexts/SnackBarProvider/SnackBarProvider';
 
 const styles = theme => ({
   container: {
@@ -154,16 +155,22 @@ class EditDialog extends Component {
           <Button onClick={onClose} color="primary">
               Cancel
           </Button>
-          <Button
-            variant="contained"
-            onClick={() => onSubmit({ name, email })}
-            disabled={
-              this.checkState('errors') || !this.checkState('touched')
-            }
-            color="primary"
-          >
+          <SnackBarContext.Consumer>
+            {
+              context => (
+                <Button
+                  variant="contained"
+                  onClick={() => { context('Trainee Successfully Updated', 'success'); onSubmit({ name, email }); }}
+                  disabled={
+                    this.checkState('errors') || !this.checkState('touched')
+                  }
+                  color="primary"
+                >
               Submit
-          </Button>
+                </Button>
+              )
+            }
+          </SnackBarContext.Consumer>
         </DialogActions>
       </Dialog>
     );

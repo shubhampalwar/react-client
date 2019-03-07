@@ -26,3 +26,5 @@ export const TRAINEE = '/trainee';
 export const LOGIN = '/login';
 export const INPUT_DEMO = '/input-demo';
 export const TEXT_FIELD_DEMO = '/text-field-demo';
+
+export const LAST_DATE = '2019-02-14T00:00:00.000Z';

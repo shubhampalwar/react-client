@@ -21,6 +21,7 @@ class TraineeList extends Component {
       name: '',
       email: '',
       password: '',
+      createdAt: '',
       orderBy: '',
       order: 'asc',
       page: 0,
@@ -55,10 +56,9 @@ class TraineeList extends Component {
   }
 
   handleEdit = (values) => {
-    const { open, snackBar } = this.state;
+    const { open } = this.state;
     console.log(values);
     open.editDialog = false;
-    snackBar.editDialog = true;
     this.setState({
       open,
       name: values.name,
@@ -73,6 +73,7 @@ class TraineeList extends Component {
       open,
       name: values.name,
       email: values.email,
+      createdAt: values.createdAt,
     });
   }
 
@@ -121,7 +122,7 @@ class TraineeList extends Component {
 
   render() {
     const {
-      open, order, orderBy, name, email, page,
+      open, order, orderBy, name, email, page, createdAt,
     } = this.state;
     return (
       <>
@@ -192,7 +193,7 @@ class TraineeList extends Component {
             ? null
             : (
               <RemoveDialog
-                data={{ name, email }}
+                data={{ name, email, createdAt }}
                 open={open.removeDialog}
                 onClose={this.handleClose}
                 onDelete={this.handleDelete}

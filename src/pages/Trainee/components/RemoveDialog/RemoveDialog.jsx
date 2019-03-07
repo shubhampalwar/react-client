@@ -10,6 +10,8 @@ import {
   Button,
   withStyles,
 } from '@material-ui/core';
+import { SnackBarContext } from '../../../../contexts';
+import { LAST_DATE } from '../../../../configs/constants';
 
 const styles = {
   button: {
@@ -20,6 +22,7 @@ const styles = {
 class RemoveDialog extends Component {
   constructor(props) {
     super(props);
+    // console.log(props.data);
     this.state = {
       name: props.data.name,
       email: props.data.email,
@@ -28,7 +31,7 @@ class RemoveDialog extends Component {
 
   render() {
     const {
-      open, onClose, classes, onDelete,
+      open, onClose, classes, onDelete, data: { createdAt },
     } = this.props;
     const { name, email } = this.state;
     return (
@@ -41,14 +44,28 @@ class RemoveDialog extends Component {
           <Button className={classes.button} onClick={onClose} color="primary">
               Cancel
           </Button>
-          <Button
-            className={classes.button}
-            variant="contained"
-            onClick={() => onDelete({ name, email })}
-            color="primary"
-          >
+          <SnackBarContext.Consumer>
+            {
+              context => (
+                <Button
+                  className={classes.button}
+                  variant="contained"
+                  onClick={() => {
+                    if (createdAt > LAST_DATE) {
+                      onDelete({ name, email });
+                      context('Trainee deleted successfully', 'success');
+                    } else {
+                      onDelete();
+                      context('Trainee cannot be deleted', 'error');
+                    }
+                  }}
+                  color="primary"
+                >
               Delete
-          </Button>
+                </Button>
+              )
+            }
+          </SnackBarContext.Consumer>
         </DialogActions>
       </Dialog>
     );

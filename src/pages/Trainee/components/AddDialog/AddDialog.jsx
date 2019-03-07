@@ -17,6 +17,7 @@ import * as yup from 'yup';
 import {
   RemoveRedEye, VisibilityOff, Email, Person,
 } from '@material-ui/icons';
+import { SnackBarContext } from '../../../../contexts/SnackBarProvider/SnackBarProvider';
 
 const styles = theme => ({
   container: {
@@ -246,16 +247,22 @@ class AddDialog extends Component {
           <Button onClick={this.handleCancel} color="primary">
               Cancel
           </Button>
-          <Button
-            variant="contained"
-            onClick={this.handleSubmit}
-            disabled={
-              this.checkState('errors') || !this.checkState('touched')
-            }
-            color="primary"
-          >
+          <SnackBarContext.Consumer>
+            {
+              context => (
+                <Button
+                  variant="contained"
+                  onClick={() => { this.handleSubmit(); context('Trainee Successfully Created', 'success'); }}
+                  disabled={
+                    this.checkState('errors') || !this.checkState('touched')
+                  }
+                  color="primary"
+                >
               Submit
-          </Button>
+                </Button>
+              )
+            }
+          </SnackBarContext.Consumer>
         </DialogActions>
       </Dialog>
     );
