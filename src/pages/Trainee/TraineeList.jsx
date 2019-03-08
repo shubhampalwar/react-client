@@ -8,6 +8,8 @@ import { AddDialog, EditDialog, RemoveDialog } from './components';
 import { trainees } from './data';
 import { Table } from '../../components';
 import dateFormat from '../../lib/utils/dateFormat';
+// import { callApi } from '../../lib/utils';
+
 
 class TraineeList extends Component {
   constructor(props) {
@@ -119,6 +121,14 @@ class TraineeList extends Component {
       page,
     });
   }
+
+  // fetchData = async () => {
+  //   try {
+  //     const result = await
+  //   } catch () {
+
+  //   }
+  // }
 
   render() {
     const {

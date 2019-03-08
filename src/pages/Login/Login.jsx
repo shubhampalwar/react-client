@@ -102,12 +102,10 @@ class Login extends Component {
       this.setState({
         loading: true,
       });
-      const result = await callApi('post', '/login', { email, password });
+      const result = await callApi('post', '/api/user/login', { email, password });
       if (result) {
         window.localStorage.setItem('token', result.data.data);
-        this.setState({
-          loading: false,
-        });
+        this.setState({ loading: false });
         history.push(TRAINEE);
       }
     } catch (err) {
