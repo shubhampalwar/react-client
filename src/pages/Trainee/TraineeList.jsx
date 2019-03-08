@@ -166,39 +166,33 @@ class TraineeList extends Component {
           onChangePage={this.handleChangePage}
         />
         {
-          (!open.editDialog)
-            ? null
-            : (
-              <EditDialog
-                open={open.editDialog}
-                data={{ name, email }}
-                onClose={this.handleClose}
-                onSubmit={this.handleEdit}
-              />
-            )
+          open.editDialog && (
+            <EditDialog
+              open={open.editDialog}
+              data={{ name, email }}
+              onClose={this.handleClose}
+              onSubmit={this.handleEdit}
+            />
+          )
         }
         {
-          (!open.addDialog)
-            ? null
-            : (
-              <AddDialog
-                open={open.addDialog}
-                onClose={this.handleClose}
-                onSubmit={this.handelTraineeData}
-              />
-            )
+          open.addDialog && (
+            <AddDialog
+              open={open.addDialog}
+              onClose={this.handleClose}
+              onSubmit={this.handelTraineeData}
+            />
+          )
         }
         {
-          (!open.removeDialog)
-            ? null
-            : (
-              <RemoveDialog
-                data={{ name, email, createdAt }}
-                open={open.removeDialog}
-                onClose={this.handleClose}
-                onDelete={this.handleDelete}
-              />
-            )
+          open.removeDialog && (
+            <RemoveDialog
+              data={{ name, email, createdAt }}
+              open={open.removeDialog}
+              onClose={this.handleClose}
+              onDelete={this.handleDelete}
+            />
+          )
         }
       </>
     );

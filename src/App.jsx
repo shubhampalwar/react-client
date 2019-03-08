@@ -20,7 +20,13 @@ const App = () => (
       <MuiThemeProvider theme={theme}>
         <Switch>
           <Route exact path="/">
-            <Redirect to={LOGIN} />
+            <>
+              {
+                (window.localStorage.getItem('token'))
+                  ? <Redirect to={TRAINEE} />
+                  : <Redirect to={LOGIN} />
+              }
+            </>
           </Route>
           <PrivateRoute exact path={CHILDREN_DEMO} component={ChildrenDemo} />
           <PrivateRoute path={TRAINEE} component={Trainee} />

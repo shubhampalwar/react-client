@@ -38,7 +38,6 @@ class NavBar extends Component {
   handleLogOut = () => {
     const { history } = this.props;
     window.localStorage.removeItem('token');
-    console.log(this.props);
     history.push(LOGIN);
   }
 

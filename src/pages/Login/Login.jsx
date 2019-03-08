@@ -104,9 +104,7 @@ class Login extends Component {
       });
       const result = await callApi('post', '/login', { email, password });
       if (result) {
-        // console.log(result.data.data);
         window.localStorage.setItem('token', result.data.data);
-        console.log('=========', window.localStorage.getItem('token'));
         this.setState({
           loading: false,
         });
@@ -211,57 +209,55 @@ class Login extends Component {
       email, password, passwordMasked, loading,
     } = this.state;
     return (
-      <>
-        <main className={classes.main}>
-          <CssBaseline />
-          <Paper className={classes.paper}>
-            <Avatar className={classes.avatar}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">Login</Typography>
-            <Grid container spacing={24} className={classes.form}>
-              <Grid item xs={12}>
-                {this.renderInputField(
-                  'email',
-                  'Email',
-                  email,
-                  'texts',
-                  <Email />,
-                )}
-              </Grid>
-              <Grid item xs={12}>
-                {this.renderInputField(
-                  'password',
-                  'Password',
-                  password,
-                  passwordMasked.password
-                    ? 'password'
-                    : 'text',
-                  this.handleIcon('password'),
-                )}
-              </Grid>
-              <SnackBarContext.Consumer>
-                {
-                  context => (
-                    <Button
-                      type="submit"
-                      fullWidth
-                      variant="contained"
-                      color="primary"
-                      disabled={this.checkState('errors') || !this.checkState('touched') || loading}
-                      className={classes.submit}
-                      onClick={this.handleSubmit(context)}
-                    >
-                      Sign in
-                      {loading && <CircularProgress className={classes.buttonProgress} />}
-                    </Button>
-                  )
-                }
-              </SnackBarContext.Consumer>
+      <main className={classes.main}>
+        <CssBaseline />
+        <Paper className={classes.paper}>
+          <Avatar className={classes.avatar}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">Login</Typography>
+          <Grid container spacing={24} className={classes.form}>
+            <Grid item xs={12}>
+              {this.renderInputField(
+                'email',
+                'Email',
+                email,
+                'texts',
+                <Email />,
+              )}
             </Grid>
-          </Paper>
-        </main>
-      </>
+            <Grid item xs={12}>
+              {this.renderInputField(
+                'password',
+                'Password',
+                password,
+                passwordMasked.password
+                  ? 'password'
+                  : 'text',
+                this.handleIcon('password'),
+              )}
+            </Grid>
+            <SnackBarContext.Consumer>
+              {
+                context => (
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    disabled={this.checkState('errors') || !this.checkState('touched') || loading}
+                    className={classes.submit}
+                    onClick={this.handleSubmit(context)}
+                  >
+                      Sign in
+                    {loading && <CircularProgress className={classes.buttonProgress} />}
+                  </Button>
+                )
+              }
+            </SnackBarContext.Consumer>
+          </Grid>
+        </Paper>
+      </main>
     );
   }
 }
