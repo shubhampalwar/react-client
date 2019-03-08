@@ -15,6 +15,7 @@ import {
 } from '@material-ui/core';
 import * as yup from 'yup';
 import { Email, Person } from '@material-ui/icons';
+import { SnackBarContext } from '../../../../contexts/SnackBarProvider/SnackBarProvider';
 
 const styles = theme => ({
   container: {
@@ -122,52 +123,56 @@ class EditDialog extends Component {
     } = this.props;
     const { name, email } = this.state;
     return (
-      <>
-        <Dialog open={open} onClose={onClose} maxWidth="xl" fullWidth>
-          <DialogTitle>Edit Trainee</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Enter your trainee details</DialogContentText>
-            <div className={classes.container}>
-              <Grid container spacing={24}>
-                <Grid item xs={12}>
-                  {this.renderInputField(
-                    'name',
-                    'Name',
-                    name,
-                    'texts',
-                    <Person />,
-                  )}
-                </Grid>
-                <Grid item xs={12}>
-                  {this.renderInputField(
-                    'email',
-                    'Email',
-                    email,
-                    'texts',
-                    <Email />,
-                  )}
-                </Grid>
-
+      <Dialog open={open} onClose={onClose} maxWidth="xl" fullWidth>
+        <DialogTitle>Edit Trainee</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Enter your trainee details</DialogContentText>
+          <div className={classes.container}>
+            <Grid container spacing={24}>
+              <Grid item xs={12}>
+                {this.renderInputField(
+                  'name',
+                  'Name',
+                  name,
+                  'texts',
+                  <Person />,
+                )}
               </Grid>
-            </div>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={onClose} color="primary">
+              <Grid item xs={12}>
+                {this.renderInputField(
+                  'email',
+                  'Email',
+                  email,
+                  'texts',
+                  <Email />,
+                )}
+              </Grid>
+
+            </Grid>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={onClose} color="primary">
               Cancel
-            </Button>
-            <Button
-              variant="contained"
-              onClick={() => onSubmit({ name, email })}
-              disabled={
-                this.checkState('errors') || !this.checkState('touched')
-              }
-              color="primary"
-            >
+          </Button>
+          <SnackBarContext.Consumer>
+            {
+              context => (
+                <Button
+                  variant="contained"
+                  onClick={() => { context('Trainee Successfully Updated', 'success'); onSubmit({ name, email }); }}
+                  disabled={
+                    this.checkState('errors') || !this.checkState('touched')
+                  }
+                  color="primary"
+                >
               Submit
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </>
+                </Button>
+              )
+            }
+          </SnackBarContext.Consumer>
+        </DialogActions>
+      </Dialog>
     );
   }
 }

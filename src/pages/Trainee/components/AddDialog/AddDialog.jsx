@@ -17,6 +17,7 @@ import * as yup from 'yup';
 import {
   RemoveRedEye, VisibilityOff, Email, Person,
 } from '@material-ui/icons';
+import { SnackBarContext } from '../../../../contexts/SnackBarProvider/SnackBarProvider';
 
 const styles = theme => ({
   container: {
@@ -193,73 +194,77 @@ class AddDialog extends Component {
       name, email, password, confirmPassword,
     } = this.state;
     return (
-      <>
-        <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
-          <DialogTitle>ADD TRAINEE</DialogTitle>
-          <DialogContent>
-            <DialogContentText>Enter your trainee details</DialogContentText>
-            <div className={classes.container}>
-              <Grid container spacing={24}>
-                <Grid item xs={12}>
-                  {this.renderInputField(
-                    'name',
-                    'Name',
-                    name,
-                    'texts',
-                    <Person />,
-                  )}
-                </Grid>
-                <Grid item xs={12}>
-                  {this.renderInputField(
-                    'email',
-                    'Email',
-                    email,
-                    'texts',
-                    <Email />,
-                  )}
-                </Grid>
-                <Grid item xs={6}>
-                  {this.renderInputField(
-                    'password',
-                    'Password',
-                    password,
-                    this.state.passwordMasked.password
-                      ? 'password'
-                      : 'text',
-                    this.handleIcon('password'),
-                  )}
-                </Grid>
-                <Grid item xs={6}>
-                  {this.renderInputField(
-                    'confirmPassword',
-                    'Confirm Password',
-                    confirmPassword,
-                    this.state.passwordMasked.confirmPassword
-                      ? 'password'
-                      : 'text',
-                    this.handleIcon('confirmPassword'),
-                  )}
-                </Grid>
+      <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
+        <DialogTitle>ADD TRAINEE</DialogTitle>
+        <DialogContent>
+          <DialogContentText>Enter your trainee details</DialogContentText>
+          <div className={classes.container}>
+            <Grid container spacing={24}>
+              <Grid item xs={12}>
+                {this.renderInputField(
+                  'name',
+                  'Name',
+                  name,
+                  'texts',
+                  <Person />,
+                )}
               </Grid>
-            </div>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={this.handleCancel} color="primary">
+              <Grid item xs={12}>
+                {this.renderInputField(
+                  'email',
+                  'Email',
+                  email,
+                  'texts',
+                  <Email />,
+                )}
+              </Grid>
+              <Grid item xs={6}>
+                {this.renderInputField(
+                  'password',
+                  'Password',
+                  password,
+                  this.state.passwordMasked.password
+                    ? 'password'
+                    : 'text',
+                  this.handleIcon('password'),
+                )}
+              </Grid>
+              <Grid item xs={6}>
+                {this.renderInputField(
+                  'confirmPassword',
+                  'Confirm Password',
+                  confirmPassword,
+                  this.state.passwordMasked.confirmPassword
+                    ? 'password'
+                    : 'text',
+                  this.handleIcon('confirmPassword'),
+                )}
+              </Grid>
+            </Grid>
+          </div>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={this.handleCancel} color="primary">
               Cancel
-            </Button>
-            <Button
-              variant="contained"
-              onClick={this.handleSubmit}
-              disabled={
-                this.checkState('errors') || !this.checkState('touched')
-              }
-              color="primary"
-            >
+          </Button>
+          <SnackBarContext.Consumer>
+            {
+              context => (
+                <Button
+                  variant="contained"
+                  onClick={() => { this.handleSubmit(); context('Trainee Successfully Created', 'success'); }}
+                  disabled={
+                    this.checkState('errors') || !this.checkState('touched')
+                  }
+                  color="primary"
+                >
               Submit
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </>
+                </Button>
+              )
+            }
+          </SnackBarContext.Consumer>
+        </DialogActions>
+      </Dialog>
     );
   }
 }

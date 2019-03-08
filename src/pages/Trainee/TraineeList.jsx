@@ -21,10 +21,69 @@ class TraineeList extends Component {
       name: '',
       email: '',
       password: '',
+      createdAt: '',
       orderBy: '',
       order: 'asc',
       page: 0,
     };
+  }
+
+  handleAddDialogOpen = () => {
+    const { open } = this.state;
+    open.addDialog = true;
+    this.setState({ open });
+  }
+
+  handelTraineeData = (values) => {
+    const { open } = this.state;
+    open.addDialog = false;
+    this.setState({
+      open,
+      name: values.name,
+      email: values.email,
+      password: values.password,
+    }, () => console.log(this.state));
+  }
+
+  handleEditDialogOpen = (values) => {
+    const { open } = this.state;
+    open.editDialog = true;
+    this.setState({
+      open,
+      name: values.name,
+      email: values.email,
+    });
+  }
+
+  handleEdit = (values) => {
+    const { open } = this.state;
+    console.log(values);
+    open.editDialog = false;
+    this.setState({
+      open,
+      name: values.name,
+      email: values.email,
+    }, () => console.log(this.state));
+  }
+
+  handleRemoveDialogOpen = (values) => {
+    const { open } = this.state;
+    open.removeDialog = true;
+    this.setState({
+      open,
+      name: values.name,
+      email: values.email,
+      createdAt: values.createdAt,
+    });
+  }
+
+  handleDelete = (values) => {
+    const { open } = this.state;
+    console.log(values);
+    open.removeDialog = false;
+    this.setState({
+      open,
+    });
   }
 
   handleClose = () => {
@@ -32,14 +91,6 @@ class TraineeList extends Component {
     open.addDialog = false;
     open.editDialog = false;
     open.removeDialog = false;
-    this.setState({
-      open,
-    });
-  }
-
-  handleClick = () => {
-    const { open } = this.state;
-    open.addDialog = true;
     this.setState({
       open,
     });
@@ -63,61 +114,19 @@ class TraineeList extends Component {
     });
   }
 
-  handleEditDialogOpen = (values) => {
-    const { open } = this.state;
-    open.editDialog = true;
-    this.setState({
-      open,
-      name: values.name,
-      email: values.email,
-    });
-  }
-
-  handleRemoveDialogOpen = (values) => {
-    const { open } = this.state;
-    open.removeDialog = true;
-    this.setState({
-      open,
-      name: values.name,
-      email: values.email,
-    });
-  }
-
-  handelTraineeData = (values) => {
-    const { open } = this.state;
-    open.addDialog = false;
-    open.removeDialog = false;
-    this.setState({
-      open,
-      name: values.name,
-      email: values.email,
-      password: values.password,
-    }, () => console.log(this.state));
-  }
-
   handleChangePage = (event, page) => {
     this.setState({
       page,
     });
   }
 
-  handleDelete = (values) => {
-    const { open } = this.state;
-    console.log(values);
-    open.removeDialog = false;
-    open.editDialog = false;
-    this.setState({
-      open,
-    });
-  }
-
   render() {
     const {
-      open, order, orderBy, name, email, page,
+      open, order, orderBy, name, email, page, createdAt,
     } = this.state;
     return (
       <>
-        <Button style={{ margin: '5px 0px' }} variant="outlined" onClick={this.handleClick} color="primary">ADD TRAINEE LIST </Button>
+        <Button style={{ margin: '5px 0px' }} variant="outlined" onClick={this.handleAddDialogOpen} color="primary">ADD TRAINEE LIST </Button>
         <Table
           id="id"
           data={trainees}
@@ -164,7 +173,7 @@ class TraineeList extends Component {
                 open={open.editDialog}
                 data={{ name, email }}
                 onClose={this.handleClose}
-                onSubmit={this.handleDelete}
+                onSubmit={this.handleEdit}
               />
             )
         }
@@ -184,7 +193,7 @@ class TraineeList extends Component {
             ? null
             : (
               <RemoveDialog
-                data={{ name, email }}
+                data={{ name, email, createdAt }}
                 open={open.removeDialog}
                 onClose={this.handleClose}
                 onDelete={this.handleDelete}
