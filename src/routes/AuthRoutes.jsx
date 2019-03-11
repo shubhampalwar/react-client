@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { AuthLayout } from '../layouts';
+import { TRAINEE } from '../configs/constants';
 
 class AuthRoutes extends Component {
   constructor(props) {
@@ -12,10 +13,14 @@ class AuthRoutes extends Component {
   render() {
     const { component: Comp, ...rest } = this.props;
     return (
-      <>
-        <Route {...rest} component={Comp} />
-        <AuthLayout />
-      </>
+      (window.localStorage.getItem('token'))
+        ? <Redirect to={TRAINEE} />
+        : (
+          <>
+            <Route {...rest} component={Comp} />
+            <AuthLayout />
+          </>
+        )
     );
   }
 }

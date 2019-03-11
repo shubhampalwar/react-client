@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Route } from 'react-router-dom';
+import { Route, Redirect } from 'react-router-dom';
 import { PrivateLayout } from '../layouts';
+import { LOGIN } from '../configs/constants';
 
 class PrivateRoute extends Component {
   constructor(props) {
@@ -12,12 +13,16 @@ class PrivateRoute extends Component {
   render() {
     const { component: Comp, ...rest } = this.props;
     return (
-      <>
-        <PrivateLayout />
-        <div style={{ margin: '5px 20px' }}>
-          <Route {...rest} component={Comp} />
-        </div>
-      </>
+      (window.localStorage.getItem('token'))
+        ? (
+          <>
+            <PrivateLayout />
+            <div style={{ margin: '5px 20px' }}>
+              <Route {...rest} component={Comp} />
+            </div>
+          </>
+        )
+        : <Redirect to={LOGIN} />
     );
   }
 }

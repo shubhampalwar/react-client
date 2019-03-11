@@ -8,6 +8,8 @@ import { AddDialog, EditDialog, RemoveDialog } from './components';
 import { trainees } from './data';
 import { Table } from '../../components';
 import dateFormat from '../../lib/utils/dateFormat';
+// import { callApi } from '../../lib/utils';
+
 
 class TraineeList extends Component {
   constructor(props) {
@@ -120,6 +122,14 @@ class TraineeList extends Component {
     });
   }
 
+  // fetchData = async () => {
+  //   try {
+  //     const result = await
+  //   } catch () {
+
+  //   }
+  // }
+
   render() {
     const {
       open, order, orderBy, name, email, page, createdAt,
@@ -166,39 +176,33 @@ class TraineeList extends Component {
           onChangePage={this.handleChangePage}
         />
         {
-          (!open.editDialog)
-            ? null
-            : (
-              <EditDialog
-                open={open.editDialog}
-                data={{ name, email }}
-                onClose={this.handleClose}
-                onSubmit={this.handleEdit}
-              />
-            )
+          open.editDialog && (
+            <EditDialog
+              open={open.editDialog}
+              data={{ name, email }}
+              onClose={this.handleClose}
+              onSubmit={this.handleEdit}
+            />
+          )
         }
         {
-          (!open.addDialog)
-            ? null
-            : (
-              <AddDialog
-                open={open.addDialog}
-                onClose={this.handleClose}
-                onSubmit={this.handelTraineeData}
-              />
-            )
+          open.addDialog && (
+            <AddDialog
+              open={open.addDialog}
+              onClose={this.handleClose}
+              onSubmit={this.handelTraineeData}
+            />
+          )
         }
         {
-          (!open.removeDialog)
-            ? null
-            : (
-              <RemoveDialog
-                data={{ name, email, createdAt }}
-                open={open.removeDialog}
-                onClose={this.handleClose}
-                onDelete={this.handleDelete}
-              />
-            )
+          open.removeDialog && (
+            <RemoveDialog
+              data={{ name, email, createdAt }}
+              open={open.removeDialog}
+              onClose={this.handleClose}
+              onDelete={this.handleDelete}
+            />
+          )
         }
       </>
     );

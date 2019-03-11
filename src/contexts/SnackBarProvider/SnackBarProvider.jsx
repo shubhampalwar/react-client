@@ -11,12 +11,12 @@ import classNames from 'classnames';
 
 export const SnackBarContext = React.createContext();
 
-const variantIcon = {
-  success: CheckCircle,
-  warning: Warning,
-  error: Error,
-  info: Info,
-};
+// const variantIcon = {
+//   success: CheckCircle,
+//   warning: Warning,
+//   error: Error,
+//   info: Info,
+// };
 
 const styles = theme => ({
   success: {
@@ -57,6 +57,17 @@ class SnackBarProvider extends Component {
     };
   }
 
+  getIcon = (status) => {
+    const { classes } = this.props;
+    switch (status) {
+    case 'success': return (<CheckCircle className={classNames(classes.icon, classes.iconVariant)} />);
+    case 'Warning': return (<Warning className={classNames(classes.icon, classes.iconVariant)} />);
+    case 'error': return (<Error className={classNames(classes.icon, classes.iconVariant)} />);
+    case 'info': return (<Info className={classNames(classes.icon, classes.iconVariant)} />);
+    default: return null;
+    }
+  }
+
   openSnackBar = (message, status) => {
     this.setState({
       message,
@@ -75,7 +86,7 @@ class SnackBarProvider extends Component {
   render() {
     const { open, message, status } = this.state;
     const { classes, children } = this.props;
-    const Icon = variantIcon[status];
+    // const Icon = variantIcon[status];
     return (
       <>
         <SnackBarContext.Provider value={this.openSnackBar}>
@@ -95,7 +106,8 @@ class SnackBarProvider extends Component {
             aria-describedby="trainee-snackbar"
             message={(
               <span id="trainee-snackbar" className={classes.message}>
-                <Icon className={classNames(classes.icon, classes.iconVariant)} />
+                {this.getIcon(status)}
+                {/* <Icon className={classNames(classes.icon, classes.iconVariant)} /> */}
                 {message}
               </span>
             )}

@@ -2,30 +2,29 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  TextField,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-  Grid,
-  DialogActions,
-  Button,
-  InputAdornment,
-  withStyles,
+  TextField, Dialog, DialogTitle, DialogContent, DialogContentText, Grid,
+  DialogActions, Button, InputAdornment, withStyles, CircularProgress,
 } from '@material-ui/core';
 import * as yup from 'yup';
 import {
   RemoveRedEye, VisibilityOff, Email, Person,
 } from '@material-ui/icons';
-import { SnackBarContext } from '../../../../contexts/SnackBarProvider/SnackBarProvider';
+import { SnackBarContext } from '../../../../contexts';
+import { callApi } from '../../../../lib/utils';
+
 
 const styles = theme => ({
   container: {
     marginTop: theme.spacing.unit * 2,
     marginRight: theme.spacing.unit * 2,
+    position: 'relative',
   },
   eye: {
     cursor: 'pointer',
+  },
+  circularProgress: {
+    position: 'absolute',
+    align: 'center',
   },
 });
 
@@ -66,6 +65,7 @@ class AddDialog extends Component {
       password: '',
       confirmPassword: '',
       passwordMasked: { password: true, confirmPassword: true },
+      loading: false,
     };
   }
 
@@ -109,9 +109,28 @@ class AddDialog extends Component {
       });
   };
 
-  handleSubmit = () => {
-    const { name, email, password } = this.state;
-    this.props.onSubmit({ name, email, password });
+  handleSubmit = context => async () => {
+    try {
+      const { name, email, password } = this.state;
+      this.setState({ loading: true });
+      const result = await callApi('post', '/api/trainee', { name, email, password }, { Authorization: window.localStorage.getItem('token') });
+      if (result) {
+        context(result.data.message, 'success');
+        this.setState({ loading: false });
+        this.props.onSubmit({ name, email, password });
+      }
+    } catch (err) {
+      this.setState({ loading: false });
+      this.props.onSubmit({});
+      const msg = (
+        <p className={this.props.classes.snackBar}>
+          {err.data.error}
+          <br />
+          {err.data.message}
+        </p>
+      );
+      context(msg, 'error');
+    }
     this.setState({
       name: '',
       password: '',
@@ -191,7 +210,7 @@ class AddDialog extends Component {
   render() {
     const { open, onClose, classes } = this.props;
     const {
-      name, email, password, confirmPassword,
+      name, email, password, confirmPassword, loading,
     } = this.state;
     return (
       <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
@@ -252,13 +271,14 @@ class AddDialog extends Component {
               context => (
                 <Button
                   variant="contained"
-                  onClick={() => { this.handleSubmit(); context('Trainee Successfully Created', 'success'); }}
+                  onClick={this.handleSubmit(context)}
                   disabled={
-                    this.checkState('errors') || !this.checkState('touched')
+                    this.checkState('errors') || !this.checkState('touched') || loading
                   }
                   color="primary"
                 >
               Submit
+                  {loading && <CircularProgress className={classes.circularProgress} />}
                 </Button>
               )
             }
