@@ -102,7 +102,7 @@ class Login extends Component {
       this.setState({
         loading: true,
       });
-      const result = await callApi('post', '/api/user/login', { email, password });
+      const result = await callApi({ method: 'post', url: '/api/user/login', data: { email, password } });
       if (result) {
         window.localStorage.setItem('token', result.data.data);
         this.setState({ loading: false });

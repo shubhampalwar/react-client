@@ -113,7 +113,9 @@ class AddDialog extends Component {
     try {
       const { name, email, password } = this.state;
       this.setState({ loading: true });
-      const result = await callApi('post', '/api/trainee', { name, email, password }, { Authorization: window.localStorage.getItem('token') });
+      const result = await callApi({
+        method: 'post', url: '/api/trainee', data: { name, email, password }, headers: { Authorization: window.localStorage.getItem('token') },
+      });
       if (result) {
         context(result.data.message, 'success');
         this.setState({ loading: false });
