@@ -1,13 +1,14 @@
+/* eslint-disable no-underscore-dangle */
 import React, { Component } from 'react';
 import {
-  withStyles, Card, CardMedia, CardContent, Typography, Button,
+  withStyles, Card, CardContent, Typography, Button, CircularProgress,
 } from '@material-ui/core/';
-import { Link } from 'react-router-dom';
+import { Link, Route, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import { trainees } from './data';
 import { NoMatch } from '../NoMatch';
 import dateFormat from '../../lib/utils/dateFormat';
 import { TRAINEE } from '../../configs/constants';
+import { callApi } from '../../lib/utils';
 
 const styles = theme => ({
   card: {
@@ -33,47 +34,100 @@ const styles = theme => ({
     color: 'inherit',
     textDecoration: 'none',
   },
+  container: {
+    position: 'relative',
+  },
+  circularProgress: {
+    position: 'absolute',
+  }
 });
 
 class TraineeDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      loader: true,
+      id: '',
     };
+    // this.getTrainee();
   }
 
-  getTrainee = () => {
-    const { match: { params: { id } } } = this.props;
-    return trainees.find(trainee => trainee.id === id);
+  static async getDerivedStateFromProps(props, state) {
+    try {
+      const result = await callApi({
+        method: 'get', url: '/api/trainee', headers: { Authorization: window.localStorage.getItem('token') },
+      });
+      const { data: { data: { records } } } = result;
+      const { match: { params } } = props;
+      const res = records.find(trainee => trainee['_id'] === params.id);
+      console.log('>>>>>>', res);
+      console.log(',,,,,,', state.id);
+      console.log('>>>>>><<<<<<', params.id);
+      // const { traineeDetails } = state;
+      // traineeDetails = res;
+      if (state.id !== params.id) {
+        console.log('inside if', params.id, state.id);
+        return {
+          id: params.id,
+          traineeDetails: res,
+          loader: false,
+        };
+      }
+    } catch (error) {
+      return null;
+    }
   }
+
+  // getTrainee = async () => {
+  //   try {
+  //     this.setState({
+  //       loader: true,
+  //     });
+  //     const result = await callApi({
+  //       method: 'get', url: '/api/trainee', headers: { Authorization: window.localStorage.getItem('token') },
+  //     });
+  //     const { data: { data: { records } } } = result;
+  //     const { match: { params: { id } } } = this.props;
+  //     const res = records.find(trainee => trainee._id === id);
+  //     this.setState({ traineeDetails: res, loader: false });
+  //   } catch (error) {
+  //     this.setState({});
+  //   }
+  // }
 
   renderCard = () => {
-    const { classes } = this.props;
-    const trainee = this.getTrainee();
-    if (!trainee) { return <NoMatch />; }
-    const {
-      name, email, createdAt, img,
-    } = trainee;
+    const { classes, history } = this.props;
+    const { traineeDetails, loader } = this.state;
+    console.log(traineeDetails);
+    // if (!traineeDetails && !loader) { return <NoMatch />a; }
+    // const {
+    //   name, email, createdAt,
+    // } = traineeDetails;
     return (
-      <>
-        <Card className={classes.card}>
-          <CardMedia image={img} title={name} className={classes.cover} />
-          <CardContent className={classes.content}>
-            <Typography component="h6" variant="h6">
-              {name}
-            </Typography>
-            <Typography variant="subtitle1" color="textSecondary">
-              {dateFormat(createdAt)}
-            </Typography>
-            <Typography variant="body2" color="textPrimary">
-              {email}
-            </Typography>
-          </CardContent>
-        </Card>
-        <div className={classes.divButton}>
-          <Button className={classes.backButton} color="primary" variant="contained"><Link className={classes.link} to={TRAINEE}>Back</Link></Button>
-        </div>
-      </>
+      <div>
+        {loader && <CircularProgress />}
+        { !loader && !traineeDetails && <Route component={NoMatch} /> }
+      </div>
+      // !!traineeDetails && (
+      //   <div>
+      //     <Card className={classes.card}>
+      //       <CardContent className={classes.content}>
+      //         <Typography component="h6" variant="h6">
+      //           {name}
+      //         </Typography>
+      //         <Typography variant="subtitle1" color="textSecondary">
+      //           {dateFormat(createdAt)}
+      //         </Typography>
+      //         <Typography variant="body2" color="textPrimary">
+      //           {email}
+      //         </Typography>
+      //       </CardContent>
+      //     </Card>
+      //     <div className={classes.divButton}>
+      //       <Button className={classes.backButton} color="primary" variant="contained"><Link className={classes.link} to={TRAINEE}>Back</Link></Button>
+      //     </div>
+      //   </div>
+      // )
     );
   }
 
@@ -89,6 +143,7 @@ class TraineeDetails extends Component {
 TraineeDetails.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   match: PropTypes.objectOf(PropTypes.any).isRequired,
+  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default withStyles(styles)(TraineeDetails);

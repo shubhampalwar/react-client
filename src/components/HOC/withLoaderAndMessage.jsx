@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { CircularProgress, withStyles, Typography } from '@material-ui/core';
 import PropTypes from 'prop-types';
@@ -18,16 +19,15 @@ const styles = {
 
 
 export default (WrappedComponent) => {
-  const HOC = (props) => {
-    const { loader, dataLength, classes } = props;
-    return (
-      <div className={classes.container}>
-        {loader && <CircularProgress size={100} className={classes.circularProgress} />}
-        {dataLength === 0 && !loader && <Typography component="h2" variant="display1" className={classes.message} gutterBottom>OOPs no data was found :&#40; </Typography> }
-        { (dataLength !== 0) && <WrappedComponent {...props} />}
-      </div>
-    );
-  };
+  const HOC = ({
+    loader, dataLength, ...props
+  }) => (
+    <div className={props.classes.container}>
+      {loader && <CircularProgress size={100} className={props.classes.circularProgress} />}
+      {dataLength === 0 && !loader && <Typography component="h2" variant="display1" className={props.classes.message} gutterBottom>OOPs no data was found :&#40; </Typography> }
+      { (dataLength !== 0) && <WrappedComponent {...props} />}
+    </div>
+  );
   HOC.propTypes = {
     loader: PropTypes.bool.isRequired,
     dataLength: PropTypes.number.isRequired,

@@ -149,7 +149,7 @@ class TraineeList extends Component {
       <>
         <Button style={{ margin: '5px 0px' }} variant="outlined" onClick={this.handleAddDialogOpen} color="primary">ADD TRAINEE LIST </Button>
         <Table
-          id="id"
+          id="_id"
           data={records}
           columns={[
             {
