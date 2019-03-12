@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import {
   withStyles, Card, CardContent, Typography, Button, CircularProgress,
 } from '@material-ui/core/';
-import { Link, Route, Redirect } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { NoMatch } from '../NoMatch';
 import dateFormat from '../../lib/utils/dateFormat';
@@ -39,103 +39,80 @@ const styles = theme => ({
   },
   circularProgress: {
     position: 'absolute',
-  }
+    left: '47%',
+    top: 200,
+  },
 });
 
 class TraineeDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      loader: true,
-      id: '',
+      traineeDetails: {},
     };
-    // this.getTrainee();
   }
 
-  static async getDerivedStateFromProps(props, state) {
+
+  componentDidMount() {
+    this.getTrainee();
+  }
+
+  getTrainee = async () => {
     try {
+      this.setState({
+        loader: true,
+      });
       const result = await callApi({
         method: 'get', url: '/api/trainee', headers: { Authorization: window.localStorage.getItem('token') },
       });
       const { data: { data: { records } } } = result;
-      const { match: { params } } = props;
-      const res = records.find(trainee => trainee['_id'] === params.id);
-      console.log('>>>>>>', res);
-      console.log(',,,,,,', state.id);
-      console.log('>>>>>><<<<<<', params.id);
-      // const { traineeDetails } = state;
-      // traineeDetails = res;
-      if (state.id !== params.id) {
-        console.log('inside if', params.id, state.id);
-        return {
-          id: params.id,
-          traineeDetails: res,
-          loader: false,
-        };
-      }
+      const { match: { params: { id } } } = this.props;
+      const res = records.find(trainee => trainee._id === id);
+      this.setState({ traineeDetails: res, loader: false });
     } catch (error) {
-      return null;
+      this.setState({});
     }
   }
 
-  // getTrainee = async () => {
-  //   try {
-  //     this.setState({
-  //       loader: true,
-  //     });
-  //     const result = await callApi({
-  //       method: 'get', url: '/api/trainee', headers: { Authorization: window.localStorage.getItem('token') },
-  //     });
-  //     const { data: { data: { records } } } = result;
-  //     const { match: { params: { id } } } = this.props;
-  //     const res = records.find(trainee => trainee._id === id);
-  //     this.setState({ traineeDetails: res, loader: false });
-  //   } catch (error) {
-  //     this.setState({});
-  //   }
-  // }
-
   renderCard = () => {
-    const { classes, history } = this.props;
-    const { traineeDetails, loader } = this.state;
-    console.log(traineeDetails);
-    // if (!traineeDetails && !loader) { return <NoMatch />a; }
-    // const {
-    //   name, email, createdAt,
-    // } = traineeDetails;
+    const { classes } = this.props;
+    const { traineeDetails } = this.state;
+    const {
+      name, email, createdAt,
+    } = traineeDetails;
     return (
-      <div>
-        {loader && <CircularProgress />}
-        { !loader && !traineeDetails && <Route component={NoMatch} /> }
-      </div>
-      // !!traineeDetails && (
-      //   <div>
-      //     <Card className={classes.card}>
-      //       <CardContent className={classes.content}>
-      //         <Typography component="h6" variant="h6">
-      //           {name}
-      //         </Typography>
-      //         <Typography variant="subtitle1" color="textSecondary">
-      //           {dateFormat(createdAt)}
-      //         </Typography>
-      //         <Typography variant="body2" color="textPrimary">
-      //           {email}
-      //         </Typography>
-      //       </CardContent>
-      //     </Card>
-      //     <div className={classes.divButton}>
-      //       <Button className={classes.backButton} color="primary" variant="contained"><Link className={classes.link} to={TRAINEE}>Back</Link></Button>
-      //     </div>
-      //   </div>
-      // )
+      !!traineeDetails && (
+        <div>
+          <Card className={classes.card}>
+            <CardContent className={classes.content}>
+              <Typography component="h6" variant="h6">
+                {name}
+              </Typography>
+              <Typography variant="subtitle1" color="textSecondary">
+                {dateFormat(createdAt)}
+              </Typography>
+              <Typography variant="body2" color="textPrimary">
+                {email}
+              </Typography>
+            </CardContent>
+          </Card>
+          <div className={classes.divButton}>
+            <Button className={classes.backButton} color="primary" variant="contained"><Link className={classes.link} to={TRAINEE}>Back</Link></Button>
+          </div>
+        </div>
+      )
     );
   }
 
   render() {
+    const { traineeDetails, loader } = this.state;
+    const { classes } = this.props;
     return (
-      <>
-        {this.renderCard()}
-      </>
+      <div className={classes.container}>
+        {loader && <CircularProgress className={classes.circularProgress} size={100} />}
+        { !loader && !traineeDetails && <Route component={NoMatch} /> }
+        {!loader && this.renderCard()}
+      </div>
     );
   }
 }
@@ -143,7 +120,6 @@ class TraineeDetails extends Component {
 TraineeDetails.propTypes = {
   classes: PropTypes.objectOf(PropTypes.string).isRequired,
   match: PropTypes.objectOf(PropTypes.any).isRequired,
-  history: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 export default withStyles(styles)(TraineeDetails);

@@ -162,4 +162,4 @@ TableComponent.defaultProps = {
   onChangePage: () => {},
 };
 
-export default withStyles(styles)(withLoaderAndMessage(TableComponent));
+export default withLoaderAndMessage(withStyles(styles)(TableComponent));
