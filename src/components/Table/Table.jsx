@@ -14,6 +14,7 @@ import {
   Button,
   TablePagination,
 } from '@material-ui/core';
+import { withLoaderAndMessage } from '../HOC';
 
 const styles = theme => ({
   tableRow: {
@@ -161,4 +162,4 @@ TableComponent.defaultProps = {
   onChangePage: () => {},
 };
 
-export default withStyles(styles)(TableComponent);
+export default withStyles(styles)(withLoaderAndMessage(TableComponent));

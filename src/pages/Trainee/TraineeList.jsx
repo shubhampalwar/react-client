@@ -5,11 +5,8 @@ import PropTypes from 'prop-types';
 
 import { Edit, Delete } from '@material-ui/icons';
 import { AddDialog, EditDialog, RemoveDialog } from './components';
-import { trainees } from './data';
 import { Table } from '../../components';
-import dateFormat from '../../lib/utils/dateFormat';
-// import { callApi } from '../../lib/utils';
-
+import { callApi, dateFormat } from '../../lib/utils';
 
 class TraineeList extends Component {
   constructor(props) {
@@ -27,7 +24,11 @@ class TraineeList extends Component {
       orderBy: '',
       order: 'asc',
       page: 0,
+      records: [],
+      count: 0,
+      loader: true,
     };
+    this.fetchData();
   }
 
   handleAddDialogOpen = () => {
@@ -37,8 +38,9 @@ class TraineeList extends Component {
   }
 
   handelTraineeData = (values) => {
-    const { open } = this.state;
+    const { open, page } = this.state;
     open.addDialog = false;
+    this.fetchData(page);
     this.setState({
       open,
       name: values.name,
@@ -100,8 +102,8 @@ class TraineeList extends Component {
 
   handleSelect = (data) => {
     const { match: { path }, history } = this.props;
-    const { id } = data;
-    history.push(`${path}/${id}`);
+    const { _id } = data;
+    history.push(`${path}/${_id}`);
   }
 
   handleSort = (field) => {
@@ -120,26 +122,35 @@ class TraineeList extends Component {
     this.setState({
       page,
     });
+    this.fetchData(page);
   }
 
-  // fetchData = async () => {
-  //   try {
-  //     const result = await
-  //   } catch () {
-
-  //   }
-  // }
+  fetchData = async (page) => {
+    try {
+      this.setState({ loader: true, records: [], count: 0 });
+      const result = await callApi({
+        method: 'get', url: '/api/trainee', headers: { Authorization: window.localStorage.getItem('token') }, params: { limit: 10, skip: page * 10 },
+      });
+      this.setState({
+        records: result.data.data.records,
+        count: result.data.data.count,
+        loader: false,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }
 
   render() {
     const {
-      open, order, orderBy, name, email, page, createdAt,
+      open, order, orderBy, name, email, page, createdAt, records, count, loader,
     } = this.state;
     return (
       <>
         <Button style={{ margin: '5px 0px' }} variant="outlined" onClick={this.handleAddDialogOpen} color="primary">ADD TRAINEE LIST </Button>
         <Table
           id="id"
-          data={trainees}
+          data={records}
           columns={[
             {
               field: 'name',
@@ -171,9 +182,11 @@ class TraineeList extends Component {
           order={order}
           onSort={this.handleSort}
           onSelect={this.handleSelect}
-          count={100}
+          count={count}
           page={page}
           onChangePage={this.handleChangePage}
+          loader={loader}
+          dataLength={count}
         />
         {
           open.editDialog && (
