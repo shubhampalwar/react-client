@@ -21,7 +21,7 @@ export default (WrappedComponent) => {
   }) => (
     <>
       {loader && <CircularProgress size={100} className={classes.circularProgress} />}
-      {dataLength === 0 && !loader && <Typography component="h2" variant="display1" className={props.classes.message} gutterBottom>OOPs no data was found :&#40; </Typography> }
+      {dataLength === 0 && !loader && <Typography component="h2" variant="display1" className={classes.message} gutterBottom>OOPs no data was found :&#40; </Typography> }
       { (dataLength !== 0) && <WrappedComponent {...props} />}
     </>
   );

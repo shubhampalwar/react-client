@@ -6,6 +6,7 @@ import {
   Dialog,
   DialogTitle,
   DialogContent,
+  CircularProgress,
   DialogContentText,
   Grid,
   DialogActions,
@@ -15,13 +16,18 @@ import {
 } from '@material-ui/core';
 import * as yup from 'yup';
 import { Email, Person } from '@material-ui/icons';
-import { SnackBarContext } from '../../../../contexts/SnackBarProvider/SnackBarProvider';
+import { SnackBarContext } from '../../../../contexts';
+import { callApi } from '../../../../lib/utils';
 
 const styles = theme => ({
   container: {
     marginTop: theme.spacing.unit * 2,
     marginRight: theme.spacing.unit * 2,
     width: '100%',
+  },
+  circularProgress: {
+    position: 'absolute',
+    align: 'center',
   },
 });
 
@@ -46,6 +52,7 @@ class EditDialog extends Component {
       touched: {},
       name: props.data.name,
       email: props.data.email,
+      loader: false,
     };
   }
 
@@ -91,6 +98,23 @@ class EditDialog extends Component {
     });
   };
 
+  handleSubmit = context => async () => {
+    try {
+      const { data } = this.props;
+      const { name, email } = this.state;
+      this.setState({ loading: true });
+      const result = await callApi({
+        method: 'put', url: '/api/trainee', data: { name, email, id: data.id }, headers: { Authorization: window.localStorage.getItem('token') },
+      });
+      context(result.data.message, 'success');
+      this.props.onSubmit();
+    } catch (err) {
+      this.setState({ loading: false });
+      this.props.onClose();
+      context(err.data.message, 'error');
+    }
+  }
+
   getErrors = (field) => {
     const { touched, errors } = this.state;
     if (touched[field]) {
@@ -119,11 +143,11 @@ class EditDialog extends Component {
 
   render() {
     const {
-      open, onClose, classes, onSubmit,
+      open, onClose, classes,
     } = this.props;
-    const { name, email } = this.state;
+    const { name, email, loading } = this.state;
     return (
-      <Dialog open={open} onClose={onClose} maxWidth="xl" fullWidth>
+      <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
         <DialogTitle>Edit Trainee</DialogTitle>
         <DialogContent>
           <DialogContentText>Enter your trainee details</DialogContentText>
@@ -147,7 +171,6 @@ class EditDialog extends Component {
                   <Email />,
                 )}
               </Grid>
-
             </Grid>
           </div>
         </DialogContent>
@@ -160,13 +183,14 @@ class EditDialog extends Component {
               context => (
                 <Button
                   variant="contained"
-                  onClick={() => { context('Trainee Successfully Updated', 'success'); onSubmit({ name, email }); }}
+                  onClick={this.handleSubmit(context)}
                   disabled={
-                    this.checkState('errors') || !this.checkState('touched')
+                    this.checkState('errors') || !this.checkState('touched') || loading
                   }
                   color="primary"
                 >
               Submit
+                  {loading && <CircularProgress className={classes.circularProgress} />}
                 </Button>
               )
             }

@@ -119,13 +119,13 @@ class AddDialog extends Component {
       if (result) {
         context(result.data.message, 'success');
         this.setState({ loading: false });
-        this.props.onSubmit({ name, email, password });
+        this.props.onSubmit();
       }
     } catch (err) {
       this.setState({ loading: false });
-      this.props.onSubmit({});
+      this.props.onSubmit();
       const msg = (
-        <p className={this.props.classes.snackBar}>
+        <p>
           {err.data.error}
           <br />
           {err.data.message}
@@ -133,26 +133,7 @@ class AddDialog extends Component {
       );
       context(msg, 'error');
     }
-    this.setState({
-      name: '',
-      password: '',
-      confirmPassword: '',
-      email: '',
-      touched: {},
-    });
   };
-
-  handleCancel = () => {
-    this.props.onClose();
-    this.setState({
-      name: '',
-      password: '',
-      confirmPassword: '',
-      email: '',
-      touched: {},
-      passwordMasked: { password: true, confirmPassword: true },
-    });
-  }
 
   handleError = (errors) => {
     const allErrors = {};
@@ -265,7 +246,7 @@ class AddDialog extends Component {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleCancel} color="primary">
+          <Button onClick={onClose} color="primary">
               Cancel
           </Button>
           <SnackBarContext.Consumer>

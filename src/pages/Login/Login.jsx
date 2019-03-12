@@ -121,13 +121,6 @@ class Login extends Component {
       );
       context(msg, 'error');
     }
-    this.setState({
-      email: '',
-      password: '',
-      touched: {},
-      confirmPassword: '',
-      passwordMasked: { password: true, confirmPassword: true },
-    });
   }
 
   handleBlur = field => () => {
