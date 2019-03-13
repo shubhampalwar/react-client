@@ -18,6 +18,10 @@ const styles = {
   button: {
     cursor: 'pointer',
   },
+  circularProgress: {
+    position: 'absolute',
+    align: 'center',
+  },
 };
 
 class RemoveDialog extends Component {

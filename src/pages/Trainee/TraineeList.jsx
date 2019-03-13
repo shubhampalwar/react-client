@@ -39,12 +39,11 @@ class TraineeList extends Component {
   }
 
   handelTraineeData = () => {
-    const { open, page } = this.state;
+    const { open } = this.state;
     open.addDialog = false;
-    this.fetchData(page);
     this.setState({
       open,
-    });
+    }, () => this.fetchData());
   }
 
   handleEditDialogOpen = (values) => {
@@ -59,9 +58,9 @@ class TraineeList extends Component {
   }
 
   handleEdit = () => {
-    const { open, page } = this.state;
+    const { open } = this.state;
     open.editDialog = false;
-    this.fetchData(page);
+    this.fetchData();
     this.setState({
       open,
     });
@@ -77,8 +76,8 @@ class TraineeList extends Component {
   }
 
   handleDelete = () => {
-    const { open, page } = this.state;
-    this.fetchData(page);
+    const { open } = this.state;
+    this.fetchData();
     open.removeDialog = false;
     this.setState({
       open,
@@ -116,18 +115,18 @@ class TraineeList extends Component {
   handleChangePage = (event, page) => {
     this.setState({
       page,
-    });
-    this.fetchData(page);
+    }, () => this.fetchData());
   }
 
-  fetchData = async (page) => {
+  fetchData = async () => {
     try {
+      const { page } = this.state;
       this.setState({ loader: true, records: [], count: 0 });
       const result = await callApi({
         method: 'get', url: '/api/trainee', headers: { Authorization: window.localStorage.getItem('token') }, params: { limit: 10, skip: page * 10 },
       });
-      if (result.data.data.records === 0) {
-        this.setState({ page: page - 1 }, this.fetchData);
+      if (result.data.data.records.length === 0 && page > 0) {
+        this.setState({ page: page - 1 }, () => this.fetchData());
       } else {
         this.setState({
           records: result.data.data.records,
