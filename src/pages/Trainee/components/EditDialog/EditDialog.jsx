@@ -23,7 +23,6 @@ const styles = theme => ({
   container: {
     marginTop: theme.spacing.unit * 2,
     marginRight: theme.spacing.unit * 2,
-    width: '100%',
   },
   circularProgress: {
     position: 'absolute',
@@ -151,28 +150,26 @@ class EditDialog extends Component {
         <DialogTitle>Edit Trainee</DialogTitle>
         <DialogContent>
           <DialogContentText>Enter your trainee details</DialogContentText>
-          <div className={classes.container}>
-            <Grid container spacing={24}>
-              <Grid item xs={12}>
-                {this.renderInputField(
-                  'name',
-                  'Name',
-                  name,
-                  'texts',
-                  <Person />,
-                )}
-              </Grid>
-              <Grid item xs={12}>
-                {this.renderInputField(
-                  'email',
-                  'Email',
-                  email,
-                  'texts',
-                  <Email />,
-                )}
-              </Grid>
+          <Grid className={classes.container} container spacing={24}>
+            <Grid item xs={12}>
+              {this.renderInputField(
+                'name',
+                'Name',
+                name,
+                'texts',
+                <Person />,
+              )}
             </Grid>
-          </div>
+            <Grid item xs={12}>
+              {this.renderInputField(
+                'email',
+                'Email',
+                email,
+                'texts',
+                <Email />,
+              )}
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
           <Button onClick={onClose} color="primary">
