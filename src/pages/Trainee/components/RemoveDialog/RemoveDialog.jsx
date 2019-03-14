@@ -9,33 +9,49 @@ import {
   DialogActions,
   Button,
   withStyles,
+  CircularProgress,
 } from '@material-ui/core';
 import { SnackBarContext } from '../../../../contexts';
-import { LAST_DATE } from '../../../../configs/constants';
+import { callApi } from '../../../../lib/utils';
 
 const styles = {
   button: {
     cursor: 'pointer',
+  },
+  circularProgress: {
+    position: 'absolute',
+    align: 'center',
   },
 };
 
 class RemoveDialog extends Component {
   constructor(props) {
     super(props);
-    // console.log(props.data);
-    this.state = {
-      name: props.data.name,
-      email: props.data.email,
-    };
+    this.state = { loading: false };
+  }
+
+  handleDelete = context => async () => {
+    try {
+      const { data: { id } } = this.props;
+      this.setState({ loading: true });
+      const result = await callApi({
+        method: 'delete', url: `/api/trainee/${id}`, headers: { Authorization: window.localStorage.getItem('token') },
+      });
+      if (result) {
+        context(result.data.message, 'success');
+        this.props.onDelete();
+      }
+    } catch (error) {
+      context(error.data.error, 'success');
+      this.props.onClose();
+    }
   }
 
   render() {
-    const {
-      open, onClose, classes, onDelete, data: { createdAt },
-    } = this.props;
-    const { name, email } = this.state;
+    const { open, onClose, classes } = this.props;
+    const { loading } = this.state;
     return (
-      <Dialog open={open} onClose={onClose} maxWidth="xl" fullWidth>
+      <Dialog open={open} onClose={onClose} maxWidth="md" fullWidth>
         <DialogTitle>Remove Trainee</DialogTitle>
         <DialogContent>
           <DialogContentText>Do you really want to remove the trainee</DialogContentText>
@@ -50,18 +66,12 @@ class RemoveDialog extends Component {
                 <Button
                   className={classes.button}
                   variant="contained"
-                  onClick={() => {
-                    if (createdAt > LAST_DATE) {
-                      onDelete({ name, email });
-                      context('Trainee deleted successfully', 'success');
-                    } else {
-                      onDelete();
-                      context('Trainee cannot be deleted', 'error');
-                    }
-                  }}
+                  onClick={this.handleDelete(context)}
                   color="primary"
+                  disabled={loading}
                 >
               Delete
+                  { loading && <CircularProgress className={classes.circularProgress} />}
                 </Button>
               )
             }

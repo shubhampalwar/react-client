@@ -119,13 +119,13 @@ class AddDialog extends Component {
       if (result) {
         context(result.data.message, 'success');
         this.setState({ loading: false });
-        this.props.onSubmit({ name, email, password });
+        this.props.onSubmit();
       }
     } catch (err) {
       this.setState({ loading: false });
-      this.props.onSubmit({});
+      this.props.onSubmit();
       const msg = (
-        <p className={this.props.classes.snackBar}>
+        <p>
           {err.data.error}
           <br />
           {err.data.message}
@@ -133,26 +133,7 @@ class AddDialog extends Component {
       );
       context(msg, 'error');
     }
-    this.setState({
-      name: '',
-      password: '',
-      confirmPassword: '',
-      email: '',
-      touched: {},
-    });
   };
-
-  handleCancel = () => {
-    this.props.onClose();
-    this.setState({
-      name: '',
-      password: '',
-      confirmPassword: '',
-      email: '',
-      touched: {},
-      passwordMasked: { password: true, confirmPassword: true },
-    });
-  }
 
   handleError = (errors) => {
     const allErrors = {};
@@ -219,53 +200,51 @@ class AddDialog extends Component {
         <DialogTitle>ADD TRAINEE</DialogTitle>
         <DialogContent>
           <DialogContentText>Enter your trainee details</DialogContentText>
-          <div className={classes.container}>
-            <Grid container spacing={24}>
-              <Grid item xs={12}>
-                {this.renderInputField(
-                  'name',
-                  'Name',
-                  name,
-                  'texts',
-                  <Person />,
-                )}
-              </Grid>
-              <Grid item xs={12}>
-                {this.renderInputField(
-                  'email',
-                  'Email',
-                  email,
-                  'texts',
-                  <Email />,
-                )}
-              </Grid>
-              <Grid item xs={6}>
-                {this.renderInputField(
-                  'password',
-                  'Password',
-                  password,
-                  this.state.passwordMasked.password
-                    ? 'password'
-                    : 'text',
-                  this.handleIcon('password'),
-                )}
-              </Grid>
-              <Grid item xs={6}>
-                {this.renderInputField(
-                  'confirmPassword',
-                  'Confirm Password',
-                  confirmPassword,
-                  this.state.passwordMasked.confirmPassword
-                    ? 'password'
-                    : 'text',
-                  this.handleIcon('confirmPassword'),
-                )}
-              </Grid>
+          <Grid className={classes.container} container spacing={24}>
+            <Grid item xs={12}>
+              {this.renderInputField(
+                'name',
+                'Name',
+                name,
+                'texts',
+                <Person />,
+              )}
             </Grid>
-          </div>
+            <Grid item xs={12}>
+              {this.renderInputField(
+                'email',
+                'Email',
+                email,
+                'texts',
+                <Email />,
+              )}
+            </Grid>
+            <Grid item xs={6}>
+              {this.renderInputField(
+                'password',
+                'Password',
+                password,
+                this.state.passwordMasked.password
+                  ? 'password'
+                  : 'text',
+                this.handleIcon('password'),
+              )}
+            </Grid>
+            <Grid item xs={6}>
+              {this.renderInputField(
+                'confirmPassword',
+                'Confirm Password',
+                confirmPassword,
+                this.state.passwordMasked.confirmPassword
+                  ? 'password'
+                  : 'text',
+                this.handleIcon('confirmPassword'),
+              )}
+            </Grid>
+          </Grid>
         </DialogContent>
         <DialogActions>
-          <Button onClick={this.handleCancel} color="primary">
+          <Button onClick={onClose} color="primary">
               Cancel
           </Button>
           <SnackBarContext.Consumer>

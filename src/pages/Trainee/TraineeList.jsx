@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import React, { Component } from 'react';
 import { Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
@@ -20,8 +18,7 @@ class TraineeList extends Component {
       },
       name: '',
       email: '',
-      password: '',
-      createdAt: '',
+      id: '',
       orderBy: '',
       order: 'asc',
       page: 0,
@@ -29,7 +26,6 @@ class TraineeList extends Component {
       count: 0,
       loader: true,
     };
-    // this.fetchData();
   }
 
   componentDidMount() {
@@ -42,16 +38,12 @@ class TraineeList extends Component {
     this.setState({ open });
   }
 
-  handelTraineeData = (values) => {
-    const { open, page } = this.state;
+  handelTraineeData = () => {
+    const { open } = this.state;
     open.addDialog = false;
-    this.fetchData(page);
     this.setState({
       open,
-      name: values.name,
-      email: values.email,
-      password: values.password,
-    }, () => console.log(this.state));
+    }, () => this.fetchData());
   }
 
   handleEditDialogOpen = (values) => {
@@ -59,19 +51,19 @@ class TraineeList extends Component {
     open.editDialog = true;
     this.setState({
       open,
+      id: values.originalId,
       name: values.name,
       email: values.email,
     });
   }
 
-  handleEdit = (values) => {
+  handleEdit = () => {
     const { open } = this.state;
     open.editDialog = false;
+    this.fetchData();
     this.setState({
       open,
-      name: values.name,
-      email: values.email,
-    }, () => console.log(this.state));
+    });
   }
 
   handleRemoveDialogOpen = (values) => {
@@ -79,15 +71,13 @@ class TraineeList extends Component {
     open.removeDialog = true;
     this.setState({
       open,
-      name: values.name,
-      email: values.email,
-      createdAt: values.createdAt,
+      id: values.originalId,
     });
   }
 
-  handleDelete = (values) => {
+  handleDelete = () => {
     const { open } = this.state;
-    console.log(values);
+    this.fetchData();
     open.removeDialog = false;
     this.setState({
       open,
@@ -125,29 +115,33 @@ class TraineeList extends Component {
   handleChangePage = (event, page) => {
     this.setState({
       page,
-    });
-    this.fetchData(page);
+    }, () => this.fetchData());
   }
 
-  fetchData = async (page) => {
+  fetchData = async () => {
     try {
+      const { page } = this.state;
       this.setState({ loader: true, records: [], count: 0 });
       const result = await callApi({
         method: 'get', url: '/api/trainee', headers: { Authorization: window.localStorage.getItem('token') }, params: { limit: 10, skip: page * 10 },
       });
-      this.setState({
-        records: result.data.data.records,
-        count: result.data.data.count,
-        loader: false,
-      });
+      if (result.data.data.records.length === 0 && page > 0) {
+        this.setState({ page: page - 1 }, () => this.fetchData());
+      } else {
+        this.setState({
+          records: result.data.data.records,
+          count: result.data.data.count,
+          loader: false,
+        });
+      }
     } catch (err) {
-      console.log(err);
+      throw err;
     }
   }
 
   render() {
     const {
-      open, order, orderBy, name, email, page, createdAt, records, count, loader,
+      open, order, orderBy, name, email, page, records, count, loader, id,
     } = this.state;
     return (
       <>
@@ -196,7 +190,7 @@ class TraineeList extends Component {
           open.editDialog && (
             <EditDialog
               open={open.editDialog}
-              data={{ name, email }}
+              data={{ name, email, id }}
               onClose={this.handleClose}
               onSubmit={this.handleEdit}
             />
@@ -214,7 +208,7 @@ class TraineeList extends Component {
         {
           open.removeDialog && (
             <RemoveDialog
-              data={{ name, email, createdAt }}
+              data={{ id }}
               open={open.removeDialog}
               onClose={this.handleClose}
               onDelete={this.handleDelete}
