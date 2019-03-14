@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+
 import React, { Component } from 'react';
 import { Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
@@ -28,6 +29,10 @@ class TraineeList extends Component {
       count: 0,
       loader: true,
     };
+    // this.fetchData();
+  }
+
+  componentDidMount() {
     this.fetchData();
   }
 
@@ -61,7 +66,6 @@ class TraineeList extends Component {
 
   handleEdit = (values) => {
     const { open } = this.state;
-    console.log(values);
     open.editDialog = false;
     this.setState({
       open,
@@ -149,7 +153,7 @@ class TraineeList extends Component {
       <>
         <Button style={{ margin: '5px 0px' }} variant="outlined" onClick={this.handleAddDialogOpen} color="primary">ADD TRAINEE LIST </Button>
         <Table
-          id="id"
+          id="_id"
           data={records}
           columns={[
             {
