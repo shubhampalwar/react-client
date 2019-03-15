@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 
-class Button extends Component {
+class Math extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -28,13 +28,13 @@ class Button extends Component {
   }
 }
 
-Button.propTypes = {
+Math.propTypes = {
   first: PropTypes.number.isRequired,
   second: PropTypes.number.isRequired,
   operator: PropTypes.string.isRequired,
   children: PropTypes.func,
 };
-Button.defaultProps = {
+Math.defaultProps = {
   children: undefined,
 };
-export default Button;
+export default Math;

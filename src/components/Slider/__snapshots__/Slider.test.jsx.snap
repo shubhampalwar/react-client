@@ -1,0 +1,174 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Slider Should render correctly 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <Slider
+    altText="Default Banner"
+    banners={Array []}
+    defaultBanner="/default.png"
+    duration={2000}
+    height="200px"
+    random={false}
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "function",
+    "props": Object {
+      "children": <div
+        style={
+          Object {
+            "textAlign": "center",
+          }
+        }
+      >
+        <img
+          alt="Default Banner"
+          src="/default.png"
+          style={
+            Object {
+              "height": "200px",
+            }
+          }
+        />
+      </div>,
+    },
+    "ref": null,
+    "rendered": Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "host",
+      "props": Object {
+        "children": <img
+          alt="Default Banner"
+          src="/default.png"
+          style={
+            Object {
+              "height": "200px",
+            }
+          }
+        />,
+        "style": Object {
+          "textAlign": "center",
+        },
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "alt": "Default Banner",
+          "src": "/default.png",
+          "style": Object {
+            "height": "200px",
+          },
+        },
+        "ref": null,
+        "rendered": null,
+        "type": "img",
+      },
+      "type": "div",
+    },
+    "type": Symbol(react.fragment),
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "function",
+      "props": Object {
+        "children": <div
+          style={
+            Object {
+              "textAlign": "center",
+            }
+          }
+        >
+          <img
+            alt="Default Banner"
+            src="/default.png"
+            style={
+              Object {
+                "height": "200px",
+              }
+            }
+          />
+        </div>,
+      },
+      "ref": null,
+      "rendered": Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": <img
+            alt="Default Banner"
+            src="/default.png"
+            style={
+              Object {
+                "height": "200px",
+              }
+            }
+          />,
+          "style": Object {
+            "textAlign": "center",
+          },
+        },
+        "ref": null,
+        "rendered": Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "alt": "Default Banner",
+            "src": "/default.png",
+            "style": Object {
+              "height": "200px",
+            },
+          },
+          "ref": null,
+          "rendered": null,
+          "type": "img",
+        },
+        "type": "div",
+      },
+      "type": Symbol(react.fragment),
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+  Symbol(enzyme.__childContext__): null,
+}
+`;

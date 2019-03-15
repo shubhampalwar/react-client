@@ -1,0 +1,179 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RadioGroup Should render correctly 1`] = `
+ShallowWrapper {
+  Symbol(enzyme.__root__): [Circular],
+  Symbol(enzyme.__unrendered__): <RadioGroup
+    error=""
+    options={Array []}
+    title=""
+  />,
+  Symbol(enzyme.__renderer__): Object {
+    "batchedUpdates": [Function],
+    "checkPropTypes": [Function],
+    "getNode": [Function],
+    "render": [Function],
+    "simulateError": [Function],
+    "simulateEvent": [Function],
+    "unmount": [Function],
+  },
+  Symbol(enzyme.__node__): Object {
+    "instance": null,
+    "key": undefined,
+    "nodeType": "function",
+    "props": Object {
+      "children": Array [
+        <div
+          style={
+            Object {
+              "fontSize": "21px",
+              "fontWeight": "bold",
+            }
+          }
+        >
+          
+        </div>,
+        Array [],
+        <div
+          style={
+            Object {
+              "boxSizing": "border-box",
+              "color": "red",
+              "padding": "10px",
+            }
+          }
+        >
+          
+        </div>,
+      ],
+    },
+    "ref": null,
+    "rendered": Array [
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "",
+          "style": Object {
+            "fontSize": "21px",
+            "fontWeight": "bold",
+          },
+        },
+        "ref": null,
+        "rendered": "",
+        "type": "div",
+      },
+      Object {
+        "instance": null,
+        "key": undefined,
+        "nodeType": "host",
+        "props": Object {
+          "children": "",
+          "style": Object {
+            "boxSizing": "border-box",
+            "color": "red",
+            "padding": "10px",
+          },
+        },
+        "ref": null,
+        "rendered": "",
+        "type": "div",
+      },
+    ],
+    "type": Symbol(react.fragment),
+  },
+  Symbol(enzyme.__nodes__): Array [
+    Object {
+      "instance": null,
+      "key": undefined,
+      "nodeType": "function",
+      "props": Object {
+        "children": Array [
+          <div
+            style={
+              Object {
+                "fontSize": "21px",
+                "fontWeight": "bold",
+              }
+            }
+          >
+            
+          </div>,
+          Array [],
+          <div
+            style={
+              Object {
+                "boxSizing": "border-box",
+                "color": "red",
+                "padding": "10px",
+              }
+            }
+          >
+            
+          </div>,
+        ],
+      },
+      "ref": null,
+      "rendered": Array [
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "",
+            "style": Object {
+              "fontSize": "21px",
+              "fontWeight": "bold",
+            },
+          },
+          "ref": null,
+          "rendered": "",
+          "type": "div",
+        },
+        Object {
+          "instance": null,
+          "key": undefined,
+          "nodeType": "host",
+          "props": Object {
+            "children": "",
+            "style": Object {
+              "boxSizing": "border-box",
+              "color": "red",
+              "padding": "10px",
+            },
+          },
+          "ref": null,
+          "rendered": "",
+          "type": "div",
+        },
+      ],
+      "type": Symbol(react.fragment),
+    },
+  ],
+  Symbol(enzyme.__options__): Object {
+    "adapter": ReactSixteenAdapter {
+      "options": Object {
+        "enableComponentDidUpdateOnSetState": true,
+        "legacyContextMode": "parent",
+        "lifecycles": Object {
+          "componentDidUpdate": Object {
+            "onSetState": true,
+          },
+          "getChildContext": Object {
+            "calledByRenderer": false,
+          },
+          "getDerivedStateFromProps": Object {
+            "hasShouldComponentUpdateBug": false,
+          },
+          "getSnapshotBeforeUpdate": true,
+          "setState": Object {
+            "skipsComponentDidUpdateOnNullish": true,
+          },
+        },
+      },
+    },
+  },
+  Symbol(enzyme.__childContext__): null,
+}
+`;

@@ -17,7 +17,7 @@ class Button extends Component {
       : btnStyle[color];
     return (
       <>
-        <input style={{ ...btnStyle.base, ...btnColor }} disabled={disabled} type="button" {...rest} />
+        <input id="Button" style={{ ...btnStyle.base, ...btnColor }} disabled={disabled} type="button" {...rest} />
       </>
     );
   }

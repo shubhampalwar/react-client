@@ -14,7 +14,7 @@ class TextField extends Component {
     return (
       <>
         <div style={style.title}>{title}</div>
-        <input type="text" {...rest} style={{ ...style.base, ...errorStyle }} />
+        <input type="text" id="textField" {...rest} style={{ ...style.base, ...errorStyle }} />
         <div style={style.errorText}>{error}</div>
       </>
     );

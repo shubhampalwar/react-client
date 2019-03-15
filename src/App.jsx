@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-unused-vars */
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import React from 'react';
@@ -13,6 +14,8 @@ import {
   CHILDREN_DEMO, TRAINEE, LOGIN, INPUT_DEMO, TEXT_FIELD_DEMO,
 } from './configs/constants';
 import { SnackBarProvider } from './contexts';
+
+const a = 'www.google.co.in';
 
 const App = () => (
   <Router>
